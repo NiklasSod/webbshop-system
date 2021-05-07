@@ -1,0 +1,9 @@
+# pdf
+*.pdf
+
+# tmp
+*.tmp
+
+# docx, doc
+*.docx
+*.doc
