@@ -1,17 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.0
+-- version 4.9.5
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1:3307
-<<<<<<< HEAD
--- Generation Time: May 07, 2021 at 02:57 PM
-=======
--- Generation Time: May 07, 2021 at 12:06 PM
->>>>>>> 4b45574f03ade848282e5b412e67a7927951f8f2
--- Server version: 10.4.18-MariaDB
--- PHP Version: 8.0.3
+-- Host: localhost:3306
+-- Generation Time: May 07, 2021 at 01:21 PM
+-- Server version: 5.7.24
+-- PHP Version: 7.4.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -36,7 +33,8 @@ CREATE TABLE `admin` (
   `FirstName` varchar(55) NOT NULL,
   `LastName` varchar(55) NOT NULL,
   `Email` varchar(55) NOT NULL,
-  `RegisterDate` date NOT NULL DEFAULT current_timestamp()
+  `RegisterDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `password` varchar(55) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -50,7 +48,8 @@ CREATE TABLE `customers` (
   `FirstName` varchar(55) NOT NULL,
   `LastName` varchar(55) NOT NULL,
   `Email` varchar(55) NOT NULL,
-  `RegisterDate` date NOT NULL DEFAULT current_timestamp()
+  `RegisterDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `password` varchar(55) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -64,7 +63,7 @@ CREATE TABLE `orders` (
   `customerId` int(11) NOT NULL,
   `productId` int(11) NOT NULL,
   `amount` int(11) NOT NULL,
-  `RegisterDate` date NOT NULL DEFAULT current_timestamp(),
+  `RegisterDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `orderStatus` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -83,17 +82,6 @@ CREATE TABLE `products` (
   `image` varchar(255) NOT NULL,
   `category` varchar(55) NOT NULL,
   `manufacture` varchar(55) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `test`
---
-
-CREATE TABLE `test` (
-  `tesdt` int(11) NOT NULL,
-  `tretgret` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
