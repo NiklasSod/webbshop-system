@@ -27,15 +27,15 @@ class View
     {
         $html = <<<HTML
         
-            <div class="col-md-6">
+            <div class="col-md-3">
                 <a href="?page=products&id=$card[id]">
                     <div class="card m-1">
                         <img class="card-img-top img-thumbnail" src="$card[image]" 
                              alt="$card[name]">
                         <div class="card-body">
                             <div class="card-title text-center">
-                                <h4>$card[name]</h4>
-                                <h5>Pris: $card[price] kr</h5>
+                                <h5>$card[name]</h5>
+                                <p>Pris: $card[price] kr</p>
                             </div>
                         </div>
                     </div>
@@ -57,7 +57,7 @@ class View
 
     public function viewOrderPage($card)
     {
-        $this->viewOneMovie($card);
+        $this->viewOneCard($card);
         $this->viewOrderForm($card);
     }
 
