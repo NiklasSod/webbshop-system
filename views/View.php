@@ -70,7 +70,7 @@ class View
             
                 <form action="#" method="post">
                     <input type="hidden" name="film_id" 
-                            value="$movie[film_id]">
+                            value="$card[id]">
                     <input type="number" name="customer_id" required 
                             class="form-control form-control-lg my-2" 
                             placeholder="Ange ditt kundnummer">

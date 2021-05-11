@@ -30,8 +30,8 @@
         </li>
 
         <div>
-          <li class="nav-item">
-            <a class="nav-link text-center" href="#">webbshop-system</a>
+          <li>
+            <a class="text-center" size="20" href="#">Webbshop-system</a>
           </li>
         </div>
 
