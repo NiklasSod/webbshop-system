@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="./styles/styles.css">
 </head>
 <body>
+  <?php include_once 'navbar.php'; ?>
     <div class="container">
       <div class="row">
     
