@@ -63,10 +63,10 @@ class Controller
         $this->getHeader("Beställning");
 
         $id = $this->sanitize($_GET['id']);
-        $movie = $this->model->fetchMovieById($id);
+        $card = $this->model->fetchCardById($id);
 
-        if($movie)
-            $this->view->viewOrderPage($movie);
+        if ($card)
+            $this->view->viewOrderPage($card);
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST')
             $this->processOrderForm();
@@ -76,9 +76,9 @@ class Controller
 
     private function processOrderForm()
     {
-        $movie_id    = $this->sanitize($_POST['film_id']);
+        $card_id    = $this->sanitize($_POST['id']);
         $customer_id = $this->sanitize($_POST['customer_id']);
-        $confirm = $this->model->saveOrder($customer_id, $movie_id);
+        $confirm = $this->model->saveOrder($customer_id, $card_id);
 
         if ($confirm) {
             $customer = $confirm['customer'];

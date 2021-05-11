@@ -27,8 +27,8 @@ class View
     {
         $html = <<<HTML
         
-            <div class="col-md-3">
-                <a href="?page=products&id=$card[id]">
+            <div class="col-md-4">
+                <a href="?page=order&id=$card[id]">
                     <div class="card m-1">
                         <img class="card-img-top img-thumbnail" src="$card[image]" 
                              alt="$card[name]">
@@ -40,6 +40,25 @@ class View
                         </div>
                     </div>
                 </a>
+            </div>  <!-- col -->
+        HTML;
+
+        echo $html;
+    }
+
+    public function viewCardDetails($card)
+    {
+        $html = <<<HTML
+        
+            <div class="col-md-5">
+                    <div class="card m-1">
+                        <div class="card-body">
+                            <div class="card-title text-center">
+                                <h5>$card[description]</h5>
+                                <p>Antal kvar: $card[amount] </p>
+                            </div>
+                        </div>
+                    </div>
             </div>  <!-- col -->
         HTML;
 
@@ -58,6 +77,7 @@ class View
     public function viewOrderPage($card)
     {
         $this->viewOneCard($card);
+        $this->viewCardDetails($card);
         $this->viewOrderForm($card);
     }
 
@@ -66,14 +86,14 @@ class View
     {
 
         $html = <<<HTML
-            <div class="col-md-6">
+            <div class="col-md-4 mx-auto">
             
                 <form action="#" method="post">
-                    <input type="hidden" name="film_id" 
+                    <input type="hidden" name="id" 
                             value="$card[id]">
                     <input type="number" name="customer_id" required 
                             class="form-control form-control-lg my-2" 
-                            placeholder="Ange ditt kundnummer">
+                            placeholder="Välj antal kort!">
                 
                     <input type="submit" class="form-control my-2 btn btn-lg btn-outline-success" 
                             value="Skicka beställningen">
