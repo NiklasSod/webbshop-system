@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: May 07, 2021 at 01:21 PM
+-- Generation Time: May 11, 2021 at 09:49 AM
 -- Server version: 5.7.24
 -- PHP Version: 7.4.1
 
@@ -81,8 +81,18 @@ CREATE TABLE `products` (
   `price` decimal(11,0) NOT NULL,
   `image` varchar(255) NOT NULL,
   `category` varchar(55) NOT NULL,
-  `manufacture` varchar(55) NOT NULL
+  `rarity` varchar(55) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `products`
+--
+
+INSERT INTO `products` (`id`, `name`, `amount`, `description`, `price`, `image`, `category`, `rarity`) VALUES
+(1, 'Hofri Ghostforge', 5, 'Spirits you control get +1/+1 and have trample and haste.\r\nWhenever another nontoken creature you control dies, exile it. If you do, create a token that\'s a copy of that creature, except it\'s a Spirit in addition to its other types and it has \"When this creature leaves the battlefield, return the exiled card to its owner\'s graveyard.\"', '41', 'https://www.svenskamagic.com/kortbilder/strixhaven:schoolofmages/hofrighostforge.hq.jpg?v=1617398328', 'Legendary Creature', 'Mythic Rare'),
+(2, 'Make Your Mark', 62, 'Target creature gets +1/+0 until end of turn. When that creature dies this turn, create a 3/2 red and white Spirit creature token.', '3', 'https://www.svenskamagic.com/kortbilder/strixhaven:schoolofmages/makeyourmark.hq.jpg?v=1617398312', 'Instant', 'Common'),
+(3, 'Humiliate', 32, 'Target opponent reveals their hand. You choose a nonland card from it. That player discards that card. Put a +1/+1 counter on a creature you control.', '5', 'https://www.svenskamagic.com/kortbilder/strixhaven:schoolofmages/humiliate.hq.jpg?v=1617527130', 'Sorcery', 'Uncommon'),
+(4, 'Infuse with Vitality', 5, 'Until end of turn, target creature gains deathtouch and \"When this creature dies, return it to the battlefield tapped under its owner\'s control.\"\r\nYou gain 2 life.', '3', 'https://www.svenskamagic.com/kortbilder/strixhaven:schoolofmages/infusewithvitality.hq.jpg?v=1617527105', 'Instant', 'Common');
 
 --
 -- Indexes for dumped tables
@@ -141,7 +151,7 @@ ALTER TABLE `orders`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables

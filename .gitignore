@@ -7,3 +7,6 @@
 # docx, doc
 *.docx
 *.doc
+
+# sql
+*.sql
