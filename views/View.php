@@ -17,6 +17,14 @@ class View
     {
         include_once("views/include/about.php");
     }
+    public function registerPage()
+    {
+        include_once("views/include/register.php");
+    }
+    public function loginPage()
+    {
+        include_once("views/include/login.php");
+    }
 
 
 

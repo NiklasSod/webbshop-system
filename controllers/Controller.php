@@ -28,6 +28,12 @@ class Controller
             case "order":
                 $this->order();
                 break;
+            case "register":
+                $this->register();
+                break;
+            case "login":
+                $this->login();
+                break;
             default:
                 $this->getAllCards();
         }
@@ -47,6 +53,18 @@ class Controller
     {
         $this->getHeader("About us");
         $this->view->viewAboutPage();
+        $this->getFooter();
+    }
+    private function register()
+    {
+        $this->getHeader("register");
+        $this->view->registerPage();
+        $this->getFooter();
+    }
+    private function login()
+    {
+        $this->getHeader("login");
+        $this->view->loginPage();
         $this->getFooter();
     }
 
