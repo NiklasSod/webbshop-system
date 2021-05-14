@@ -51,7 +51,7 @@ class Model
     return array('customer' => $customer, 'lastInsertId' => $lastInsertId);
   }
 
-  public function ModelRegisterCustomer($CustomerFirstname, $CustomerLastname, $CustomerEmail, $CustomerPassword)
+  public function modelRegisterCustomer($CustomerFirstname, $CustomerLastname, $CustomerEmail, $CustomerPassword)
   {
 
     $statement = "INSERT INTO customers (FirstName,LastName,Email,password )  
@@ -67,5 +67,56 @@ class Model
     $insertedCustomer = $this->db->insert($statement, $parameters);
 
     return array('insertedCustomer' => $insertedCustomer);
+  }
+
+  public function modelLoginCustomer()
+  {
+    if (isset($_POST)) {
+
+      $email = $_POST['email'];
+      $password = $_POST['password'];
+
+      if ($email != "" && $password != "") {
+
+        $statement = "SELECT * FROM customers  WHERE email = :email and password =:password";
+
+        $parameters = array(
+          ":email" => $email,
+          ":password" => $password,
+        );
+
+        $loggedInCustomer = $this->db->select($statement, $parameters);
+
+        // print_r($loggedInCustomer);
+
+        if (count($loggedInCustomer) > 0) {
+          $_SESSION['email'] = $email;
+
+
+          // setcookie("TestCookie", $loggedInCustomer);
+          // $_SESSION["favcolor"] = "green";
+
+          // print_r($_SESSION);
+          header('Location: index.php');
+        } else {
+          echo "Invalid username or password";
+        }
+        return array('loggedInCustomer' => $loggedInCustomer);
+
+
+        // $s= "select * from customers where email='" . $email . "' and password='" . $password . "'";
+        // $result = mysqli_query($con, $sql_query);
+        // $row = mysqli_fetch_array($result);
+
+        // $count = $row['cntUser'];
+
+        // if ($count > 0) {
+        //     $_SESSION['uname'] = $uname;
+        //     header('Location: home.php');
+        // } else {
+        //     echo "Invalid username and password";
+        // }
+      }
+    }
   }
 }

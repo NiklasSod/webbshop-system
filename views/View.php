@@ -119,7 +119,9 @@ class View
             "<h4> $lastInsertCustomer Created, pls login</h4>
             ",
             "success"
+
         );
+        // header("Location: http://localhost/backend2/webshop/index.php?page=login");
     }
 
     public function viewErrorMessage($customer_id)

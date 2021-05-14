@@ -70,6 +70,10 @@ class Controller
     {
         $this->getHeader("login");
         $this->view->loginPage();
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST')
+            $this->validateUserLogin();
+
         $this->getFooter();
     }
 
@@ -105,13 +109,28 @@ class Controller
         $CustomerLastname = $this->sanitize($_POST['lastname']);
         $CustomerEmail = $this->sanitize($_POST['email']);
         $CustomerPassword = $this->sanitize($_POST['password']);
-        $createdCustomer = $this->model->ModelRegisterCustomer($CustomerFirstname, $CustomerLastname, $CustomerEmail, $CustomerPassword);
+        $createdCustomer = $this->model->modelRegisterCustomer($CustomerFirstname, $CustomerLastname, $CustomerEmail, $CustomerPassword);
 
         if ($createdCustomer) {
             $lastInsertCustomer = $CustomerFirstname;
             $this->view->viewConfirmMessage($lastInsertCustomer);
         } else {
             $this->view->viewErrorMessage($CustomerFirstname);
+        }
+    }
+
+    public function validateUserLogin()
+    {
+        $CustomerEmail = $this->sanitize($_POST['email']);
+        $CustomerPassword = $this->sanitize($_POST['password']);
+
+        $loginCustomer = $this->model->modelLoginCustomer($CustomerEmail, $CustomerPassword);
+
+        if ($loginCustomer) {
+            $lastInsertCustomer = $CustomerEmail;
+            $this->view->viewConfirmMessage($lastInsertCustomer);
+        } else {
+            $this->view->viewErrorMessage($CustomerEmail);
         }
     }
 

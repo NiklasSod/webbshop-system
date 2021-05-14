@@ -1,3 +1,5 @@
+<?php session_start() ?>
+¨
 <?php
 
 require_once("models/Database.php");
@@ -11,3 +13,4 @@ $view = new View();
 $controller = new Controller($model, $view);
 
 $controller->main();
+print_r($_SESSION);

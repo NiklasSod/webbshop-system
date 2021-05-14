@@ -1,4 +1,4 @@
-<form id="registerForm" action="/user/register" method="post">
+<form id="registerForm" action="#" method="POST">
     <h1 class="h3 mb-3 fw-normal">Please Login</h1>
 
 
@@ -10,9 +10,13 @@
     <input name="password" id="inputPassword" class="form-control mb-3" placeholder="Password" value="" required>
 
 
-    <button class="w-100 btn btn-lg btn-primary" type="submit">Register</button>
+    <button class="w-100 btn btn-lg btn-primary" type="submit">Login</button>
 
 
     <h3><a href=" ?page=register">Register </a></h3>
 
 </form>
+
+<?php
+
+// print_r($_POST);
