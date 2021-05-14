@@ -50,4 +50,22 @@ class Model
 
     return array('customer' => $customer, 'lastInsertId' => $lastInsertId);
   }
+
+  public function ModelRegisterCustomer($CustomerFirstname, $CustomerLastname, $CustomerEmail, $CustomerPassword)
+  {
+
+    $statement = "INSERT INTO customers (FirstName,LastName,Email,password )  
+                    VALUES (:CustomerFirstname,:CustomerLastname,:CustomerEmail,:CustomerPassword )";
+    $parameters = array(
+      ':CustomerFirstname' => $CustomerFirstname,
+      ':CustomerLastname' => $CustomerLastname,
+      ':CustomerEmail' => $CustomerEmail,
+      ':CustomerPassword' => $CustomerPassword
+    );
+
+    // new customer
+    $insertedCustomer = $this->db->insert($statement, $parameters);
+
+    return array('insertedCustomer' => $insertedCustomer);
+  }
 }

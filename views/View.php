@@ -17,6 +17,14 @@ class View
     {
         include_once("views/include/about.php");
     }
+    public function registerPage()
+    {
+        include_once("views/include/register.php");
+    }
+    public function loginPage()
+    {
+        include_once("views/include/login.php");
+    }
 
 
 
@@ -105,14 +113,10 @@ class View
         echo $html;
     }
 
-    public function viewConfirmMessage($customer, $lastInsertId)
+    public function viewConfirmMessage($lastInsertCustomer)
     {
         $this->printMessage(
-            "<h4>Tack $customer[name]</h4>
-            <p>Vi kommer att skicka filmen till följande e-post:</p>
-            <p>$customer[email]</p>
-            <p>Ditt ordernummer är $lastInsertId </p>
-            </div> <!-- col  avslutar Beställningsformulär -->
+            "<h4> $lastInsertCustomer Created, pls login</h4>
             ",
             "success"
         );

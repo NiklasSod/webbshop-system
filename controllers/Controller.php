@@ -16,7 +16,6 @@ class Controller
     {
         $this->router();
     }
-
     private function router()
     {
         $page = $_GET['page'] ?? "";
@@ -25,8 +24,14 @@ class Controller
             case "about":
                 $this->about();
                 break;
-            case "order":
-                $this->order();
+                // case "order":
+                //     $this->order();
+                //     break;
+            case "register":
+                $this->register();
+                break;
+            case "login":
+                $this->login();
                 break;
             default:
                 $this->getAllCards();
@@ -49,6 +54,25 @@ class Controller
         $this->view->viewAboutPage();
         $this->getFooter();
     }
+    private function register()
+    {
+        $this->getHeader("register");
+        $this->view->registerPage();
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST')
+            $this->registerUserToDb();
+        // $this->registerCustomer();
+        $this->getFooter();
+    }
+
+
+    private function login()
+    {
+        $this->getHeader("login");
+        $this->view->loginPage();
+        $this->getFooter();
+    }
+
 
     private function getAllCards()
     {
@@ -57,35 +81,37 @@ class Controller
         $this->view->viewAllCards($cards);
         $this->getFooter();
     }
+    // * *************************
+    // private function registerCustomer()
+    // {
+    //     $this->getHeader("Beställning");
 
-    private function order()
+    //     $id = $this->sanitize($_GET['id']);
+    //     $card = $this->model->fetchCardById($id);
+
+    //     if ($card)
+    //         $this->view->viewOrderPage($card);
+
+    //     if ($_SERVER['REQUEST_METHOD'] === 'POST')
+    //         $this->registerUserToDb();
+
+    //     $this->getFooter();
+    // }
+    // ** *************************
+
+    private function registerUserToDb()
     {
-        $this->getHeader("Beställning");
+        $CustomerFirstname    = $this->sanitize($_POST['firstname']);
+        $CustomerLastname = $this->sanitize($_POST['lastname']);
+        $CustomerEmail = $this->sanitize($_POST['email']);
+        $CustomerPassword = $this->sanitize($_POST['password']);
+        $createdCustomer = $this->model->ModelRegisterCustomer($CustomerFirstname, $CustomerLastname, $CustomerEmail, $CustomerPassword);
 
-        $id = $this->sanitize($_GET['id']);
-        $card = $this->model->fetchCardById($id);
-
-        if ($card)
-            $this->view->viewOrderPage($card);
-
-        if ($_SERVER['REQUEST_METHOD'] === 'POST')
-            $this->processOrderForm();
-
-        $this->getFooter();
-    }
-
-    private function processOrderForm()
-    {
-        $card_id    = $this->sanitize($_POST['id']);
-        $customer_id = $this->sanitize($_POST['customer_id']);
-        $confirm = $this->model->saveOrder($customer_id, $card_id);
-
-        if ($confirm) {
-            $customer = $confirm['customer'];
-            $lastInsertId = $confirm['lastInsertId'];
-            $this->view->viewConfirmMessage($customer, $lastInsertId);
+        if ($createdCustomer) {
+            $lastInsertCustomer = $CustomerFirstname;
+            $this->view->viewConfirmMessage($lastInsertCustomer);
         } else {
-            $this->view->viewErrorMessage($customer_id);
+            $this->view->viewErrorMessage($CustomerFirstname);
         }
     }
 
