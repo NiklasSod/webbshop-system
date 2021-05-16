@@ -12,7 +12,7 @@ class Database
   private $conn = null;
 
   // $servername = "localhost:3307" ta bort :3307 från localhost om den finns
-  public function __construct($database, $username = "root", $password = "abbe", $servername = "localhost")
+  public function __construct($database, $username = "root", $password = "root", $servername = "localhost")
   {
     // Data Source Name
     $dsn = "mysql:host=$servername;dbname=$database;charset=UTF8";
@@ -48,7 +48,6 @@ class Database
     return $stmt->fetchAll();
     // https://www.php.net/manual/en/pdostatement.fetchall
   }
-
 
   /**
    * INSERT
