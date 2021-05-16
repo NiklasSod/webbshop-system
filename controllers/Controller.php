@@ -24,9 +24,9 @@ class Controller
             case "about":
                 $this->about();
                 break;
-                // case "order":
-                //     $this->order();
-                //     break;
+            case "order":
+                $this->detailPage();
+                break;
             case "register":
                 $this->register();
                 break;
@@ -54,6 +54,7 @@ class Controller
         $this->view->viewAboutPage();
         $this->getFooter();
     }
+    
     private function register()
     {
         $this->getHeader("register");
@@ -61,10 +62,8 @@ class Controller
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST')
             $this->registerUserToDb();
-        // $this->registerCustomer();
         $this->getFooter();
     }
-
 
     private function login()
     {
@@ -77,7 +76,6 @@ class Controller
         $this->getFooter();
     }
 
-
     private function getAllCards()
     {
         $this->getHeader("Welcome");
@@ -85,23 +83,24 @@ class Controller
         $this->view->viewAllCards($cards);
         $this->getFooter();
     }
-    // * *************************
-    // private function registerCustomer()
-    // {
-    //     $this->getHeader("Beställning");
 
-    //     $id = $this->sanitize($_GET['id']);
-    //     $card = $this->model->fetchCardById($id);
+    private function detailPage()
+    {
+        $this->getHeader("Beställning");
 
-    //     if ($card)
-    //         $this->view->viewOrderPage($card);
+        $id = $this->sanitize($_GET['id']);
+        $card = $this->model->fetchCardById($id);
 
-    //     if ($_SERVER['REQUEST_METHOD'] === 'POST')
-    //         $this->registerUserToDb();
+        if ($card)
+            $this->view->viewOrderPage($card);
 
-    //     $this->getFooter();
-    // }
-    // ** *************************
+        // Funktion för att beställa mängd antal kort!!
+        //
+        // if ($_SERVER['REQUEST_METHOD'] === 'POST')
+        //     $this->registerUserToDb();
+
+        $this->getFooter();
+    }
 
     private function registerUserToDb()
     {
@@ -111,9 +110,8 @@ class Controller
         $CustomerPassword = $this->sanitize($_POST['password']);
         $createdCustomer = $this->model->modelRegisterCustomer($CustomerFirstname, $CustomerLastname, $CustomerEmail, $CustomerPassword);
 
-        if ($createdCustomer) {
-            $lastInsertCustomer = $CustomerFirstname;
-            $this->view->viewConfirmMessage($lastInsertCustomer);
+        if (is_array($createdCustomer)) {
+            $this->view->viewConfirmMessageRegister($CustomerFirstname);
         } else {
             $this->view->viewErrorMessage($CustomerFirstname);
         }
@@ -126,9 +124,9 @@ class Controller
 
         $loginCustomer = $this->model->modelLoginCustomer($CustomerEmail, $CustomerPassword);
 
-        if ($loginCustomer) {
-            $lastInsertCustomer = $CustomerEmail;
-            $this->view->viewConfirmMessage($lastInsertCustomer);
+        if (is_array($loginCustomer)) {
+            $this->view->viewConfirmMessageLogin($CustomerEmail . "... redirecting to homepage");
+            header("refresh:1; url=index.php");
         } else {
             $this->view->viewErrorMessage($CustomerEmail);
         }

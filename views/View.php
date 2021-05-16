@@ -17,6 +17,7 @@ class View
     {
         include_once("views/include/about.php");
     }
+
     public function registerPage()
     {
         include_once("views/include/register.php");
@@ -26,11 +27,6 @@ class View
         include_once("views/include/login.php");
     }
 
-
-
-    // Bra att läsa om PHP Templating och HEREDOC syntax!
-    // https://css-tricks.com/php-templating-in-just-php/
-
     public function viewOneCard($card)
     {
         $html = <<<HTML
@@ -38,8 +34,8 @@ class View
             <div class="col-md-4">
                 <a href="?page=order&id=$card[id]">
                     <div class="card m-1">
-                        <img class="card-img-top img-thumbnail" src="$card[image]" 
-                             alt="$card[name]">
+                        <img class="card-img-top img-thumbnail" 
+                            src="$card[image]" alt="$card[name]">
                         <div class="card-body">
                             <div class="card-title text-center">
                                 <h5>$card[name]</h5>
@@ -73,7 +69,6 @@ class View
         echo $html;
     }
 
-
     public function viewAllCards($cards)
     {
         foreach ($cards as $card) {
@@ -81,14 +76,12 @@ class View
         }
     }
 
-
     public function viewOrderPage($card)
     {
         $this->viewOneCard($card);
         $this->viewCardDetails($card);
         $this->viewOrderForm($card);
     }
-
 
     public function viewOrderForm($card)
     {
@@ -113,22 +106,30 @@ class View
         echo $html;
     }
 
-    public function viewConfirmMessage($lastInsertCustomer)
+    public function viewConfirmMessageRegister($userInfo)
     {
         $this->printMessage(
-            "<h4> $lastInsertCustomer Created, pls login</h4>
+            "<h4>User $userInfo Created, pls login</h4>
             ",
             "success"
 
         );
-        // header("Location: http://localhost/backend2/webshop/index.php?page=login");
     }
 
-    public function viewErrorMessage($customer_id)
+    public function viewConfirmMessageLogin($userInfo)
     {
         $this->printMessage(
-            "<h4>Kundnummer $customer_id finns ej i vårt kundregister!</h4>
-            <h5>Kontakta kundtjänst</h5>
+            "<h4>User $userInfo logged in!</h4>
+            ",
+            "success"
+
+        );
+    }
+
+    public function viewErrorMessage()
+    {
+        $this->printMessage(
+            "<h4>Något gick fel, försök igen eller kontakta kundkänst</h4>
             </div> <!-- col  avslutar Beställningsformulär -->
             ",
             "warning"
