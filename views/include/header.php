@@ -7,13 +7,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="./styles/bootstrap.css">
   <link rel="stylesheet" href="./styles/styles.css">
-  <title>webbshop-system</title>
+  <title>Magic Card Shop</title>
 </head>
 
 <body>
 
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Magic-Cards</a>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+    <a class="navbar-brand" href="#">Magic Card Shop</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -29,12 +29,6 @@
           <a class="nav-link" href="#">Profile</a>
         </li>
 
-        <div>
-          <li>
-            <a class="text-center" size="20" href="#">Webbshop-system</a>
-          </li>
-        </div>
-
       </ul>
       <span class="navbar-text">
         Sign in / up
@@ -42,9 +36,5 @@
     </div>
   </nav>
 
-
-  <a href="index.php">
-    <h1 class="text-center">webbshop-system</h1>
-  </a>
-  <div class="container">
+  <div class="container" style="margin-top: 90px;">
     <div class="row">
