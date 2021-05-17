@@ -14,24 +14,36 @@
         }
 
 
-        if (!$_SESSION['order']){
+        if (!isset($_SESSION['order'])){
             $_SESSION['order'] = array();
         };
 
-        // foreach($_SESSION['order'][0]['id'] as $order){
-        //     if ($order == $_POST['id']){
-        //         $_SESSION['order']['amount'] += $_POST['amount'];
-        //     }
+        
+        // if(empty($_SESSION['order'])){
+        //     $lim = 2;
+        // } else {
+        //     $lim = count($_SESSION['order']);
         // }
 
-        array_push($_SESSION['order'],$_POST);
+        // for ($i = 0; $i < $lim; $i++) {
+        //     if ($_SESSION['order'][$i]['id'] == $_POST['id']) {
+        //         $_SESSION['order'][$i]['amount'] += $_POST['amount'];
+        //     break;
+        //     } else if($i == count($_SESSION['order'])) {
+        //         array_push($_SESSION['order'],$_POST);
+        //     };
+        // };
+
+        
 
         
         ?>
-    hej
     <?php
 
-    print_r($_SESSION);
+        echo "<pre>";
+        print_r($_SESSION['order']);
+        echo "</pre>";
+    //print_r($_SESSION);
     ?>
 </body>
 </html>
