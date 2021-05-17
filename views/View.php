@@ -40,7 +40,9 @@ class View
     public function viewCartPage()
     {
         include_once("views/include/shoppingcart.php");
-        $this->viewAllOrdersInCart();
+        if (isset($_SESSION['order'])) {
+            $this->viewAllOrdersInCart();
+        }
     }
 
     public function viewOneCard($card)
@@ -195,3 +197,4 @@ class View
         echo $html;
     }
 }
+ 
