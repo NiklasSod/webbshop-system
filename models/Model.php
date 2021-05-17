@@ -71,7 +71,7 @@ class Model
         if (count($loggedInCustomer) > 0) {
 
           // Sätta session för att förbli inloggad
-          // $_SESSION['email'] = $email;
+          $_SESSION['email'] = $email;
 
           return array('loggedInCustomer' => $loggedInCustomer) ?? false;
         }

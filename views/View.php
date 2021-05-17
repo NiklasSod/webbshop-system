@@ -27,6 +27,11 @@ class View
         include_once("views/include/login.php");
     }
 
+    public function logoutPage()
+    {
+        include_once("views/include/logout.php");
+    }
+
     public function viewOneCard($card)
     {
         $html = <<<HTML
