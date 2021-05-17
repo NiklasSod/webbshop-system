@@ -37,6 +37,11 @@ class View
         include_once("views/include/logout.php");
     }
 
+    public function viewCartPage()
+    {
+        include_once("views/include/shoppingcart.php");
+    }
+
     public function viewOneCard($card)
     {
         $html = <<<HTML
@@ -99,10 +104,14 @@ class View
         $html = <<<HTML
             <div class="col-md-4 mx-auto">
             
-                <form action="#" method="post">
+                <form action="?page=shoppingcart" method="post">
                     <input type="hidden" name="id" 
                             value="$card[id]">
-                    <input type="number" value=1 min=1 max=$card[amount] name="customer_id" required 
+                    <input type="hidden" name="title" 
+                            value="$card[name]">
+                    <input type="hidden" name="price" 
+                            value="$card[price]">
+                    <input type="number" value=1 min=1 max=$card[amount] name="amount" required 
                             class="form-control form-control-lg my-2" 
                             >
                 

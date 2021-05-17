@@ -39,6 +39,9 @@ class Controller
             case "logout":
                 $this->view->logoutPage();
                 break;
+            case "shoppingcart":
+                $this->cartPage();
+                break;
             default:
                 $this->getAllCards();
         }
@@ -58,6 +61,13 @@ class Controller
     {
         $this->getHeader("About us");
         $this->view->viewAboutPage();
+        $this->getFooter();
+    }
+
+    private function cartPage()
+    {
+        $this->getHeader("Your Shoppingcart");
+        $this->view->viewCartPage();
         $this->getFooter();
     }
     
