@@ -10,8 +10,7 @@
 <?php
 // Ej inloggad ger direkt info om att logga in och scriptet stoppas
 if (!isset($_SESSION['email'])) {
-    echo "Please sign in &nbsp;&nbsp; <a href='?page=login'> Log In &nbsp; / &nbsp; </a> <a href='?page=register'> Register</a>";
-    die();
+    echo "<h5 class='col-md-12'>Please <a href='?page=login'>Log In</a> or <a href='?page=register'>Register</a> to proceed</h5>";
 }
 
 // Om man kommer in till sidan via varukorg-länk ska ej array pushas / fel uppstå
@@ -37,11 +36,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         array_push($_SESSION['order'],$_POST);
     }
 }
-    // temporärt
-    echo "<pre>";
-    print_r($_POST);
-    print_r($_SESSION['order']);
-    echo "</pre>";
 ?>
 
 </body>

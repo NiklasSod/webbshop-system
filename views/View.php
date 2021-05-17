@@ -40,6 +40,7 @@ class View
     public function viewCartPage()
     {
         include_once("views/include/shoppingcart.php");
+        $this->viewAllOrdersInCart();
     }
 
     public function viewOneCard($card)
@@ -120,6 +121,29 @@ class View
                 </form>
                 
             <!-- col avslutas efter ett meddelande från viewConfirmMessage eller viewErrorMessage -->
+        HTML;
+
+        echo $html;
+    }
+
+    private function viewAllOrdersInCart()
+    {
+        foreach ($_SESSION['order'] as $order) {
+            $this->viewOneOrderInCart($order);
+        }
+    }
+
+    private function viewOneOrderInCart($order)
+    {
+        $html = <<<HTML
+        
+            <div>
+                <div class='col-md-12 m-4 border border-success'>
+                    <h4>Card: $order[title]</h4>
+                    <h4>Amount: $order[amount]</h4>
+                    <h4>Price: $order[price]</h4>
+                </div>
+            </div>  <!-- col -->
         HTML;
 
         echo $html;
