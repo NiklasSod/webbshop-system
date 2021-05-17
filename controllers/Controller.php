@@ -33,6 +33,8 @@ class Controller
             case "login":
                 $this->login();
                 break;
+            case "logout":
+                $this->view->logoutPage();
             default:
                 $this->getAllCards();
         }

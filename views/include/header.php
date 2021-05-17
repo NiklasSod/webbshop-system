@@ -1,3 +1,5 @@
+<?php session_start(); ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,7 +15,7 @@
 <body>
 
   <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
-    <a class="navbar-brand" href="#">Magic Card Shop</a>
+    <a class="navbar-brand" href="?page=default">Magic Card Shop</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -31,7 +33,13 @@
 
       </ul>
       <span class="navbar-text">
-        Sign in / up
+        <?php
+        if (isset($_SESSION['email'])) {
+          echo $_SESSION['email'] . "<a href='?page=logout'> Log Out</a>";
+        } else {
+          echo "<a href='?page=login'> Log In /</a>" . "<a href='?page=register'> Register</a>";
+        } 
+        ?>
       </span>
     </div>
   </nav>
