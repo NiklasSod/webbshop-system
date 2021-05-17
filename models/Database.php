@@ -35,7 +35,12 @@ class Database
       $stmt->execute($input_parameters);
       return $stmt;
     } catch (PDOException $e) {
-      throw new Exception($e->getMessage());
+      if ($stmt->errorInfo()[1] == 1062) {
+        $this->printMessage("Email finns redan i databasen!");
+        die();
+      } else {
+        throw new Exception($e->getMessage());
+      }
     }
   }
 
@@ -73,5 +78,12 @@ class Database
   public function delete($statement, $input_parameters = [])
   {
     $this->execute($statement, $input_parameters);
+  }
+
+  private function printMessage($message, $messageType = "danger")
+  {
+      echo "<div class='my-2 col-md-6 offset-md-3 alert alert-$messageType alert-dismissible fade show' role='alert'>
+          $message
+      </div>";
   }
 }

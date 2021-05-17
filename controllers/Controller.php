@@ -108,9 +108,9 @@ class Controller
         $CustomerLastname = $this->sanitize($_POST['lastname']);
         $CustomerEmail = $this->sanitize($_POST['email']);
         $CustomerPassword = $this->sanitize($_POST['password']);
-        $createdCustomer = $this->model->modelRegisterCustomer($CustomerFirstname, $CustomerLastname, $CustomerEmail, $CustomerPassword);
+        $confirmed = $this->model->modelRegisterCustomer($CustomerFirstname, $CustomerLastname, $CustomerEmail, $CustomerPassword);
 
-        if (is_array($createdCustomer)) {
+        if ($confirmed) {
             $this->view->viewConfirmMessageRegister($CustomerFirstname);
         } else {
             $this->view->viewErrorMessage($CustomerFirstname);
@@ -122,9 +122,9 @@ class Controller
         $CustomerEmail = $this->sanitize($_POST['email']);
         $CustomerPassword = $this->sanitize($_POST['password']);
 
-        $loginCustomer = $this->model->modelLoginCustomer($CustomerEmail, $CustomerPassword);
+        $confirmed = $this->model->modelLoginCustomer($CustomerEmail, $CustomerPassword);
 
-        if (is_array($loginCustomer)) {
+        if ($confirmed) {
             $this->view->viewConfirmMessageLogin($CustomerEmail . "... redirecting to homepage");
             header("refresh:1; url=index.php");
         } else {

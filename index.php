@@ -11,4 +11,4 @@ $view = new View();
 $controller = new Controller($model, $view);
 
 $controller->main();
-// print_r($_SESSION);
+print_r($_SESSION);
