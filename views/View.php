@@ -102,9 +102,9 @@ class View
                 <form action="#" method="post">
                     <input type="hidden" name="id" 
                             value="$card[id]">
-                    <input type="number" name="customer_id" required 
+                    <input type="number" value=1 min=1 max=$card[amount] name="customer_id" required 
                             class="form-control form-control-lg my-2" 
-                            placeholder="Välj antal kort!">
+                            >
                 
                     <input type="submit" class="form-control my-2 btn btn-lg btn-outline-success" 
                             value="Skicka beställningen">

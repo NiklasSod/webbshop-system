@@ -22,10 +22,10 @@
     <div class="collapse navbar-collapse" id="navbarText">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
-          <a class="nav-link" href="#">Shop <span class="sr-only">(current)</span></a>
+          <a class="nav-link" href="?page=default">Shop <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">About us</a>
+          <a class="nav-link" href="?page=about">About us</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">Profile</a>

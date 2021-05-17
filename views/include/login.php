@@ -11,7 +11,8 @@
     <button class="w-100 btn btn-lg btn-primary" type="submit">Login</button>
 
 
-    <h3><a href=" ?page=register">Register </a></h3>
+    <h5><a href=" ?page=register">Register </a></h5>
+    <h5><a href=" ?page=loginadmin">Admin login </a></h5>
 
 </form>
 
