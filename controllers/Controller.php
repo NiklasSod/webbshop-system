@@ -33,8 +33,12 @@ class Controller
             case "login":
                 $this->login();
                 break;
+            case "loginadmin":
+                $this->loginadmin();
+                break;
             case "logout":
                 $this->view->logoutPage();
+                break;
             default:
                 $this->getAllCards();
         }
@@ -71,6 +75,17 @@ class Controller
     {
         $this->getHeader("login");
         $this->view->loginPage();
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST')
+            $this->validateUserLogin();
+
+        $this->getFooter();
+    }
+
+    private function loginadmin()
+    {
+        $this->getHeader("login admin");
+        $this->view->loginAdminPage();
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST')
             $this->validateUserLogin();

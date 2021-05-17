@@ -53,13 +53,13 @@ class Model
   public function modelLoginCustomer()
   {
     if (isset($_POST)) {
-
+      $userType = $_POST['admin'] ?? 'customers';
       $email = $_POST['email'];
       $password = $_POST['password'];
 
       if ($email != "" && $password != "") {
 
-        $statement = "SELECT * FROM customers  WHERE email = :email AND password =:password";
+        $statement = "SELECT * FROM $userType WHERE email = :email AND password =:password";
 
         $parameters = array(
           ":email" => $email,
