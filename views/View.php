@@ -137,15 +137,38 @@ class View
 
     private function viewOneOrderInCart($order)
     {
+        $sum = $order['price'] * $order['amount'];
+
         $html = <<<HTML
         
-            <div>
+            <!-- <div>
                 <div class='col-md-12 m-4 border border-success'>
                     <h4>Card: $order[title]</h4>
                     <h4>Amount: $order[amount]</h4>
-                    <h4>Price: $order[price]</h4>
+                    <h4>Total price: $sum</h4>
                 </div>
-            </div>  <!-- col -->
+            </div>  col -->
+            <!-- <table class="table table-hover">
+            <thead>
+                <tr>
+                <th scope="col">#</th>
+                <th scope="col">Card name</th>
+                <th scope="col">Amount</th>
+                <th scope="col">price per each</th>
+                <th scope="col">Total price</th>
+                </tr>
+            </thead> -->
+            <!-- <tbody> -->
+                <tr>
+                <th scope="row">1</th>
+                <td>$order[title]</td>
+                <td>$order[price]</td>
+                <td>$order[amount]</td>
+                <td>$sum</td>
+                </tr>
+            <!-- </tbody>
+            </table> -->
+
         HTML;
 
         echo $html;
@@ -197,4 +220,3 @@ class View
         echo $html;
     }
 }
- 
