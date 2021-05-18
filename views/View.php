@@ -156,48 +156,39 @@ class View
 
     private function viewAllOrdersInCart()
     {
+        $row = 0;
+        $totalt = 0;
+
         foreach ($_SESSION['order'] as $order) {
-            $this->viewOneOrderInCart($order);
+            $row += 1;
+
+            $sum = $this->viewOneOrderInCart($order, $row);
+            $totalt += $sum;
         }
+
+        echo $totalt;
     }
 
-    private function viewOneOrderInCart($order)
+    private function viewOneOrderInCart($order, $row)
     {
         $sum = $order['price'] * $order['amount'];
 
+
         $html = <<<HTML
         
-            <!-- <div>
-                <div class='col-md-12 m-4 border border-success'>
-                    <h4>Card: $order[title]</h4>
-                    <h4>Amount: $order[amount]</h4>
-                    <h4>Total price: $sum</h4>
-                </div>
-            </div>  col -->
-            <!-- <table class="table table-hover">
-            <thead>
                 <tr>
-                <th scope="col">#</th>
-                <th scope="col">Card name</th>
-                <th scope="col">Amount</th>
-                <th scope="col">price per each</th>
-                <th scope="col">Total price</th>
-                </tr>
-            </thead> -->
-            <!-- <tbody> -->
-                <tr>
-                <th scope="row">1</th>
+                <th scope="row">$row</th>
                 <td>$order[title]</td>
                 <td>$order[price]</td>
                 <td>$order[amount]</td>
                 <td>$sum</td>
                 </tr>
-            <!-- </tbody>
-            </table> -->
 
         HTML;
 
         echo $html;
+
+        return $sum;
     }
 
     public function viewConfirmMessageRegister($userInfo)
