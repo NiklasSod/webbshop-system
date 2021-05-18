@@ -45,8 +45,8 @@
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Card name</th>
+                <th scope="col">Price one card</th>
                 <th scope="col">Amount</th>
-                <th scope="col">price one card</th>
                 <th scope="col">Total price</th>
             </tr>
         </thead>

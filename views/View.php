@@ -45,6 +45,22 @@ class View
         }
     }
 
+    public function updatedTotalCardAmount($card)
+    {
+        $updatedAmount = $card['amount'];
+
+        if (isset($_SESSION['order'])) {
+            $amountOfOrders = count($_SESSION['order']);
+            for ($i = 0; $i < $amountOfOrders; $i++) {
+
+                if ($_SESSION['order'][$i]['id'] === $card['id']) {
+                    $updatedAmount = $card['amount'] -= $_SESSION['order'][$i]['amount'];
+                }
+            }
+        }
+        return $updatedAmount;
+    }
+
     public function viewOneCard($card)
     {
         $html = <<<HTML
@@ -70,6 +86,8 @@ class View
 
     public function viewCardDetails($card)
     {
+        $amountLeft =  $this->updatedTotalCardAmount($card);
+
         $html = <<<HTML
         
             <div class="col-md-5">
@@ -77,7 +95,7 @@ class View
                         <div class="card-body">
                             <div class="card-title text-center">
                                 <h5>$card[description]</h5>
-                                <p>Antal kvar: $card[amount] </p>
+                                <p>Antal kvar: $amountLeft</p>
                             </div>
                         </div>
                     </div>
@@ -103,6 +121,14 @@ class View
 
     public function viewOrderForm($card)
     {
+        $amountLeft =  $this->updatedTotalCardAmount($card);
+
+        $showbtn = 'enabled';
+
+        if ($amountLeft == '0') {
+
+            $showbtn = 'disabled';
+        }
 
         $html = <<<HTML
             <div class="col-md-4 mx-auto">
@@ -114,12 +140,12 @@ class View
                             value="$card[name]">
                     <input type="hidden" name="price" 
                             value="$card[price]">
-                    <input type="number" value=1 min=1 max=$card[amount] name="amount" required 
+                    <input type="number" value=1 min=1 max=$amountLeft name="amount" required 
                             class="form-control form-control-lg my-2" 
                             >
                 
                     <input type="submit" class="form-control my-2 btn btn-lg btn-outline-success" 
-                            value="Skicka beställningen">
+                            value="Skicka beställningen" $showbtn>
                 </form>
                 
             <!-- col avslutas efter ett meddelande från viewConfirmMessage eller viewErrorMessage -->

@@ -12,7 +12,7 @@ class Database
   private $conn = null;
 
   // $servername = "localhost:3307" ta bort :3307 från localhost om den finns
-  public function __construct($database, $username = "root", $password = "root", $servername = "localhost")
+  public function __construct($database, $username = "root", $password = "root", $servername = "localhost:3307")
   {
     // Data Source Name
     $dsn = "mysql:host=$servername;dbname=$database;charset=UTF8";
@@ -82,7 +82,7 @@ class Database
 
   private function printMessage($message, $messageType = "danger")
   {
-      echo "<div class='my-2 col-md-6 offset-md-3 alert alert-$messageType alert-dismissible fade show' role='alert'>
+    echo "<div class='my-2 col-md-6 offset-md-3 alert alert-$messageType alert-dismissible fade show' role='alert'>
           $message
       </div>";
   }
