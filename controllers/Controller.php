@@ -105,6 +105,9 @@ class Controller
     {
         $this->getHeader("Beställning");
 
+        if ($_SERVER['REQUEST_METHOD'] === 'POST')
+        $this->sendOrderToDb();
+
         $id = $this->sanitize($_GET['id']);
         $card = $this->model->fetchCardById($id);
 
@@ -118,8 +121,7 @@ class Controller
 
         $this->getFooter();
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST')
-        $this->sendOrderToDb();
+
     }
 
 
@@ -134,6 +136,7 @@ class Controller
 
         if ($confirmed) {
             $this->view->viewConfirmMessageOrderSent($_SESSION['email']);
+            header("refresh:1; url=index.php");
         } else {
             $this->view->viewErrorMessage();
         }

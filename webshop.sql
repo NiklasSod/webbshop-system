@@ -1,30 +1,23 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.0
+-- version 4.9.7
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1:3307
--- Generation Time: May 18, 2021 at 03:43 PM
--- Server version: 10.4.18-MariaDB
--- PHP Version: 8.0.3
+-- Värd: localhost:8889
+-- Tid vid skapande: 18 maj 2021 kl 14:59
+-- Serverversion: 5.7.32
+-- PHP-version: 7.4.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
 SET time_zone = "+00:00";
 
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
 --
--- Database: `webshop`
+-- Databas: `webshop`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `admin`
+-- Tabellstruktur `admin`
 --
 
 CREATE TABLE `admin` (
@@ -32,21 +25,23 @@ CREATE TABLE `admin` (
   `FirstName` varchar(55) NOT NULL,
   `LastName` varchar(55) NOT NULL,
   `Email` varchar(55) NOT NULL,
-  `RegisterDate` datetime NOT NULL DEFAULT current_timestamp(),
+  `RegisterDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `password` varchar(55) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `admin`
+-- Dumpning av Data i tabell `admin`
 --
 
 INSERT INTO `admin` (`id`, `FirstName`, `LastName`, `Email`, `RegisterDate`, `password`) VALUES
-(1, 'test', 'test', 'test@test.se', '2021-05-12 09:47:45', 'test');
+(1, 'test', 'test', 'test@test.se', '2021-05-12 09:47:45', 'test'),
+(2, 'Edvard', 'Åkerman', 'ed@mail.se', '2021-05-17 13:21:19', '123'),
+(3, 'Edvard', 'Åkerman', 'ed@mail.se', '2021-05-17 13:21:23', '123');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `customers`
+-- Tabellstruktur `customers`
 --
 
 CREATE TABLE `customers` (
@@ -54,48 +49,46 @@ CREATE TABLE `customers` (
   `FirstName` varchar(55) NOT NULL,
   `LastName` varchar(55) NOT NULL,
   `Email` varchar(55) NOT NULL,
-  `RegisterDate` datetime NOT NULL DEFAULT current_timestamp(),
+  `RegisterDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `password` varchar(55) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `customers`
+-- Dumpning av Data i tabell `customers`
 --
 
 INSERT INTO `customers` (`id`, `FirstName`, `LastName`, `Email`, `RegisterDate`, `password`) VALUES
-(1, 'Georgios', 'Goussis', 'ulidin@gmail.com', '2021-05-16 10:20:52', '123456');
+(1, 'ed', 'ed', 'mail@mail.se', '2021-05-17 13:44:21', '123');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `orderitems`
---
-
-CREATE TABLE `orderitems` (
-  `id` int(11) NOT NULL,
-  `orderId` int(11) NOT NULL,
-  `productId` int(11) NOT NULL,
-  `amount` int(11) NOT NULL,
-  `price` decimal(11,0) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `orders`
+-- Tabellstruktur `orders`
 --
 
 CREATE TABLE `orders` (
   `id` int(11) NOT NULL,
   `customerId` int(11) NOT NULL,
-  `RegisterDate` datetime NOT NULL DEFAULT current_timestamp(),
+  `productId` int(11) NOT NULL,
+  `amount` int(11) NOT NULL,
+  `price` decimal(11,0) NOT NULL,
+  `RegisterDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `orderStatus` tinyint(4) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumpning av Data i tabell `orders`
+--
+
+INSERT INTO `orders` (`id`, `customerId`, `productId`, `amount`, `price`, `RegisterDate`, `orderStatus`) VALUES
+(1, 1, 1, 1, '41', '2021-05-18 16:43:44', NULL),
+(2, 1, 5, 5, '3', '2021-05-18 16:45:07', NULL),
+(3, 1, 2, 1, '3', '2021-05-18 16:57:21', NULL);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `products`
+-- Tabellstruktur `products`
 --
 
 CREATE TABLE `products` (
@@ -110,7 +103,7 @@ CREATE TABLE `products` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `products`
+-- Dumpning av Data i tabell `products`
 --
 
 INSERT INTO `products` (`id`, `name`, `amount`, `description`, `price`, `image`, `category`, `rarity`) VALUES
@@ -152,89 +145,71 @@ INSERT INTO `products` (`id`, `name`, `amount`, `description`, `price`, `image`,
 (36, 'Reconstruct History', 26, 'Return up to one target artifact card, up to one target enchantment card, up to one target instant card, up to one target sorcery card, and up to one target planeswalker card from your graveyard to your hand.\r\nExile Reconstruct History.', '5', 'https://www.svenskamagic.com/kortbilder/strixhaven:schoolofmages/reconstructhistory.hq.jpg?v=1617398331', 'Sorcery', 'Uncommon');
 
 --
--- Indexes for dumped tables
+-- Index för dumpade tabeller
 --
 
 --
--- Indexes for table `admin`
+-- Index för tabell `admin`
 --
 ALTER TABLE `admin`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `id` (`id`);
 
 --
--- Indexes for table `customers`
+-- Index för tabell `customers`
 --
 ALTER TABLE `customers`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `orderitems`
---
-ALTER TABLE `orderitems`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_orders` (`orderId`),
-  ADD KEY `fk_products` (`productId`);
-
---
--- Indexes for table `orders`
+-- Index för tabell `orders`
 --
 ALTER TABLE `orders`
   ADD PRIMARY KEY (`id`),
+  ADD KEY `order.products` (`productId`),
   ADD KEY `order.customer` (`customerId`);
 
 --
--- Indexes for table `products`
+-- Index för tabell `products`
 --
 ALTER TABLE `products`
   ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT för dumpade tabeller
 --
 
 --
--- AUTO_INCREMENT for table `admin`
+-- AUTO_INCREMENT för tabell `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `customers`
+-- AUTO_INCREMENT för tabell `customers`
 --
 ALTER TABLE `customers`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `orders`
+-- AUTO_INCREMENT för tabell `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `products`
+-- AUTO_INCREMENT för tabell `products`
 --
 ALTER TABLE `products`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
--- Constraints for dumped tables
+-- Restriktioner för dumpade tabeller
 --
 
 --
--- Constraints for table `orderitems`
---
-ALTER TABLE `orderitems`
-  ADD CONSTRAINT `fk_orders` FOREIGN KEY (`orderId`) REFERENCES `orders` (`id`),
-  ADD CONSTRAINT `fk_products` FOREIGN KEY (`productId`) REFERENCES `products` (`id`);
-
---
--- Constraints for table `orders`
+-- Restriktioner för tabell `orders`
 --
 ALTER TABLE `orders`
-  ADD CONSTRAINT `order.customer` FOREIGN KEY (`customerId`) REFERENCES `customers` (`id`);
-COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+  ADD CONSTRAINT `order.customer` FOREIGN KEY (`customerId`) REFERENCES `customers` (`id`),
+  ADD CONSTRAINT `order.products` FOREIGN KEY (`productId`) REFERENCES `products` (`id`);

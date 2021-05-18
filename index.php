@@ -11,4 +11,3 @@ $view = new View();
 $controller = new Controller($model, $view);
 
 $controller->main();
-print_r($_SESSION['customer_id']);
