@@ -37,14 +37,6 @@ class View
         include_once("views/include/logout.php");
     }
 
-    public function viewCartPage()
-    {
-        include_once("views/include/shoppingcart.php");
-        if (isset($_SESSION['order'])) {
-            $this->viewAllOrdersInCart();
-        }
-    }
-
     public function updatedTotalCardAmount($card)
     {
         $updatedAmount = $card['amount'];
@@ -133,74 +125,25 @@ class View
         $html = <<<HTML
             <div class="col-md-4 mx-auto">
             
-                <form action="?page=shoppingcart" method="post">
+                <form action="#" method="post">
                     <input type="hidden" name="id" 
                             value="$card[id]">
-                    <input type="hidden" name="title" 
-                            value="$card[name]">
-                    <input type="hidden" name="price" 
+                    <input type="hidden" name="customer_id" 
+                            value=$_SESSION[customer_id]>
+                    <input type="hidden" name="price"
                             value="$card[price]">
                     <input type="number" value=1 min=1 max=$amountLeft name="amount" required 
                             class="form-control form-control-lg my-2" 
                             >
                 
                     <input type="submit" class="form-control my-2 btn btn-lg btn-outline-success" 
-                            value="Lägg till i varukorgen" $showbtn>
+                            value="Order" $showbtn>
                 </form>
                 
             <!-- col avslutas efter ett meddelande från viewConfirmMessage eller viewErrorMessage -->
         HTML;
 
         echo $html;
-    }
-
-    private function viewAllOrdersInCart()
-    {
-        $row = 0;
-        $totalt = 0;
-
-        foreach ($_SESSION['order'] as $order) {
-            $row += 1;
-
-            $sum = $this->viewOneOrderInCart($order, $row);
-            $totalt += $sum;
-        }
-
-        echo $totalt;
-
-
-        $html = <<<HTML
-
-            <form method="post" action="#">
-            <input type="hidden" name="sendOrder" value=true>
-                <input type="submit" value="check out">
-            </form>
-
-        HTML;
-
-        echo $html;
-    }
-
-    private function viewOneOrderInCart($order, $row)
-    {
-        $sum = $order['price'] * $order['amount'];
-
-
-        $html = <<<HTML
-        
-                <tr>
-                <th scope="row">$row</th>
-                <td>$order[title]</td>
-                <td>$order[price]</td>
-                <td>$order[amount]</td>
-                <td>$sum</td>
-                </tr>
-
-        HTML;
-
-        echo $html;
-
-        return $sum;
     }
 
     public function viewConfirmMessageRegister($userInfo)
@@ -217,6 +160,16 @@ class View
     {
         $this->printMessage(
             "<h4>User $userInfo logged in!</h4>
+            ",
+            "success"
+
+        );
+    }
+
+    public function viewConfirmMessageOrderSent($userInfo)
+    {
+        $this->printMessage(
+            "<h4>$userInfo , order confirmed!</h4>
             ",
             "success"
 

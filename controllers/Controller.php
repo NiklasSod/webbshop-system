@@ -39,9 +39,6 @@ class Controller
             case "logout":
                 $this->view->logoutPage();
                 break;
-            case "shoppingcart":
-                $this->cartPage();
-                break;
             default:
                 $this->getAllCards();
         }
@@ -61,17 +58,6 @@ class Controller
     {
         $this->getHeader("About us");
         $this->view->viewAboutPage();
-        $this->getFooter();
-    }
-
-    private function cartPage()
-    {
-        $this->getHeader("Your Shoppingcart");
-        $this->view->viewCartPage();
-
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['sendOrder']))
-            $this->sendOrderToDb();
-
         $this->getFooter();
     }
 
@@ -131,25 +117,26 @@ class Controller
         //     $this->registerUserToDb();
 
         $this->getFooter();
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST')
+        $this->sendOrderToDb();
     }
 
 
     private function sendOrderToDb()
     {
+        $customer_id = $_SESSION['customer_id'];
+        $product_id = $this->sanitize($_POST['id']);
+        $amount = $this->sanitize($_POST['amount']);
+        $price = $this->sanitize($_POST['price']);
+        $confirmed = $this->model->modelSendOrderToDb($product_id, $amount, $price, $customer_id);
+        
 
-        foreach ($_SESSION['order'] as $order) {
-
-            $id = $this->sanitize($order['id']);
-            $amount = $this->sanitize($order['amount']);
-            $price = $this->sanitize($order['price']);
-            $confirmed = $this->model->sendOrderToDb($id, $amount, $price);
+        if ($confirmed) {
+            $this->view->viewConfirmMessageOrderSent($_SESSION['email']);
+        } else {
+            $this->view->viewErrorMessage();
         }
-
-        // if ($confirmed) {
-        //     $this->view->viewConfirmMessageSend($_SESSION['email']);
-        // } else {
-        //     $this->view->viewErrorMessage();
-        // }
     }
 
 

@@ -30,9 +30,6 @@
         <li class="nav-item">
           <a class="nav-link" href="#">Profile</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="?page=shoppingcart">Shopping Cart</a>
-        </li>
 
       </ul>
       <span class="navbar-text">

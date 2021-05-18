@@ -50,6 +50,24 @@ class Model
     return array('insertedCustomer' => $insertedCustomer) ?? false;
   }
 
+  public function modelSendOrderToDb($product_id, $amount, $price, $customer_id)
+  {
+
+    $statement = "INSERT INTO orders (customerId,amount,price,productId)  
+                    VALUES (:customerid,:amount,:price,:productId )";
+    $parameters = array(
+      ':customerid' => $customer_id,
+      ':amount' => $amount,
+      ':price' => $price,
+      ':productId' => $product_id
+    );
+
+    // new customer
+    $insertedCustomer = $this->db->insert($statement, $parameters);
+
+    return array('insertedCustomer' => $insertedCustomer) ?? false;
+  }
+
   public function modelLoginCustomer()
   {
     if (isset($_POST)) {
@@ -69,9 +87,10 @@ class Model
         $loggedInCustomer = $this->db->select($statement, $parameters);
 
         if (count($loggedInCustomer) > 0) {
-
+          
           // Sätta session för att förbli inloggad
           $_SESSION['email'] = $email;
+          $_SESSION['customer_id'] = $loggedInCustomer[0]['id'];
 
           return array('loggedInCustomer' => $loggedInCustomer) ?? false;
         }
