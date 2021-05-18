@@ -145,7 +145,7 @@ class View
                             >
                 
                     <input type="submit" class="form-control my-2 btn btn-lg btn-outline-success" 
-                            value="Skicka beställningen" $showbtn>
+                            value="Lägg till i varukorgen" $showbtn>
                 </form>
                 
             <!-- col avslutas efter ett meddelande från viewConfirmMessage eller viewErrorMessage -->
@@ -167,6 +167,18 @@ class View
         }
 
         echo $totalt;
+
+
+        $html = <<<HTML
+
+            <form method="post" action="#">
+            <input type="hidden" name="sendOrder" value=true>
+                <input type="submit" value="check out">
+            </form>
+
+        HTML;
+
+        echo $html;
     }
 
     private function viewOneOrderInCart($order, $row)

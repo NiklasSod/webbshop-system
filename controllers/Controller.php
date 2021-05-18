@@ -68,9 +68,13 @@ class Controller
     {
         $this->getHeader("Your Shoppingcart");
         $this->view->viewCartPage();
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['sendOrder']))
+            $this->sendOrderToDb();
+
         $this->getFooter();
     }
-    
+
     private function register()
     {
         $this->getHeader("register");
@@ -129,6 +133,26 @@ class Controller
         $this->getFooter();
     }
 
+
+    private function sendOrderToDb()
+    {
+
+        foreach ($_SESSION['order'] as $order) {
+
+            $id = $this->sanitize($order['id']);
+            $amount = $this->sanitize($order['amount']);
+            $price = $this->sanitize($order['price']);
+            $confirmed = $this->model->sendOrderToDb($id, $amount, $price);
+        }
+
+        // if ($confirmed) {
+        //     $this->view->viewConfirmMessageSend($_SESSION['email']);
+        // } else {
+        //     $this->view->viewErrorMessage();
+        // }
+    }
+
+
     private function registerUserToDb()
     {
         $CustomerFirstname    = $this->sanitize($_POST['firstname']);
@@ -140,7 +164,7 @@ class Controller
         if ($confirmed) {
             $this->view->viewConfirmMessageRegister($CustomerFirstname);
         } else {
-            $this->view->viewErrorMessage($CustomerFirstname);
+            $this->view->viewErrorMessage();
         }
     }
 
