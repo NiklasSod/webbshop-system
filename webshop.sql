@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.5
+-- version 5.1.0
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
--- Generation Time: May 12, 2021 at 07:48 AM
--- Server version: 5.7.24
--- PHP Version: 7.4.1
+-- Host: 127.0.0.1:3307
+-- Generation Time: May 18, 2021 at 03:43 PM
+-- Server version: 10.4.18-MariaDB
+-- PHP Version: 8.0.3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -33,7 +32,7 @@ CREATE TABLE `admin` (
   `FirstName` varchar(55) NOT NULL,
   `LastName` varchar(55) NOT NULL,
   `Email` varchar(55) NOT NULL,
-  `RegisterDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `RegisterDate` datetime NOT NULL DEFAULT current_timestamp(),
   `password` varchar(55) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -55,8 +54,29 @@ CREATE TABLE `customers` (
   `FirstName` varchar(55) NOT NULL,
   `LastName` varchar(55) NOT NULL,
   `Email` varchar(55) NOT NULL,
-  `RegisterDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `RegisterDate` datetime NOT NULL DEFAULT current_timestamp(),
   `password` varchar(55) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `customers`
+--
+
+INSERT INTO `customers` (`id`, `FirstName`, `LastName`, `Email`, `RegisterDate`, `password`) VALUES
+(1, 'Georgios', 'Goussis', 'ulidin@gmail.com', '2021-05-16 10:20:52', '123456');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `orderitems`
+--
+
+CREATE TABLE `orderitems` (
+  `id` int(11) NOT NULL,
+  `orderId` int(11) NOT NULL,
+  `productId` int(11) NOT NULL,
+  `amount` int(11) NOT NULL,
+  `price` decimal(11,0) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -68,10 +88,8 @@ CREATE TABLE `customers` (
 CREATE TABLE `orders` (
   `id` int(11) NOT NULL,
   `customerId` int(11) NOT NULL,
-  `productId` int(11) NOT NULL,
-  `amount` int(11) NOT NULL,
-  `RegisterDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `orderStatus` tinyint(4) NOT NULL
+  `RegisterDate` datetime NOT NULL DEFAULT current_timestamp(),
+  `orderStatus` tinyint(4) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -151,12 +169,19 @@ ALTER TABLE `customers`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `orderitems`
+--
+ALTER TABLE `orderitems`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_orders` (`orderId`),
+  ADD KEY `fk_products` (`productId`);
+
+--
 -- Indexes for table `orders`
 --
 ALTER TABLE `orders`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `order.customer` (`customerId`),
-  ADD KEY `order.products` (`productId`);
+  ADD KEY `order.customer` (`customerId`);
 
 --
 -- Indexes for table `products`
@@ -178,13 +203,13 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `products`
@@ -197,11 +222,17 @@ ALTER TABLE `products`
 --
 
 --
+-- Constraints for table `orderitems`
+--
+ALTER TABLE `orderitems`
+  ADD CONSTRAINT `fk_orders` FOREIGN KEY (`orderId`) REFERENCES `orders` (`id`),
+  ADD CONSTRAINT `fk_products` FOREIGN KEY (`productId`) REFERENCES `products` (`id`);
+
+--
 -- Constraints for table `orders`
 --
 ALTER TABLE `orders`
-  ADD CONSTRAINT `order.customer` FOREIGN KEY (`customerId`) REFERENCES `customers` (`id`),
-  ADD CONSTRAINT `order.products` FOREIGN KEY (`productId`) REFERENCES `products` (`id`);
+  ADD CONSTRAINT `order.customer` FOREIGN KEY (`customerId`) REFERENCES `customers` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
