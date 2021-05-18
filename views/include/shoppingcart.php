@@ -1,49 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>ShoppingCart</title>
 </head>
+
 <body>
 
-<?php
-        if (!isset($_SESSION['email'])) {
-          echo "Please sign in &nbsp;&nbsp; <a href='?page=login'> Log In &nbsp; / &nbsp; </a> <a href='?page=register'> Register</a>";
-          die();
+    <?php
+    // Ej inloggad ger direkt info om att logga in och scriptet stoppas
+    if (!isset($_SESSION['email'])) {
+        echo "<h5 class='col-md-12'>Please <a href='?page=login'>Log In</a> or <a href='?page=register'>Register</a> to proceed</h5>";
+    }
+
+    // Om man kommer in till sidan via varukorg-länk ska ej array pushas / fel uppstå
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+        // if order does not exist, create an array and order
+        if (!isset($_SESSION['order'])) {
+            $_SESSION['order'] = array();
         }
 
-
-        if (!isset($_SESSION['order'])){
-            $_SESSION['order'] = array();
-        };
-
-        
-        // if(empty($_SESSION['order'])){
-        //     $lim = 2;
-        // } else {
-        //     $lim = count($_SESSION['order']);
-        // }
-
-        // for ($i = 0; $i < $lim; $i++) {
-        //     if ($_SESSION['order'][$i]['id'] == $_POST['id']) {
-        //         $_SESSION['order'][$i]['amount'] += $_POST['amount'];
-        //     break;
-        //     } else if($i == count($_SESSION['order'])) {
-        //         array_push($_SESSION['order'],$_POST);
-        //     };
-        // };
-
-        
-
-        
-        ?>
-    <?php
-
-        echo "<pre>";
-        print_r($_SESSION['order']);
-        echo "</pre>";
-    //print_r($_SESSION);
+        // Kontrollerar id för duplicering, isåfall uppdatera antal
+        if (count($_SESSION['order']) > 0) {
+            $amountOfOrders = count($_SESSION['order']);
+            for ($i = 0; $i < $amountOfOrders; $i++) {
+                // Kollar om kort redan finns i varukorgen
+                if ($_SESSION['order'][$i]['id'] === $_POST['id']) {
+                    $updatedAmount = $_SESSION['order'][$i]['amount'] += $_POST['amount'];
+                }
+            }
+        }
+        // Om vi inte hittar några dupliceringar, pusha ny order
+        if (!isset($updatedAmount)) {
+            array_push($_SESSION['order'], $_POST);
+        }
+    }
     ?>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Card name</th>
+                <th scope="col">Amount</th>
+                <th scope="col">price one card</th>
+                <th scope="col">Total price</th>
+            </tr>
+        </thead>
+        <tbody>
+
 </body>
+
 </html>
