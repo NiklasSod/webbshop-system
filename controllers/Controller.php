@@ -42,6 +42,9 @@ class Controller
             case "shoppingcart":
                 $this->cartPage();
                 break;
+            case "orderconfirm":
+                $this->orderconfirmPage();
+                break;
             default:
                 $this->getAllCards();
         }
@@ -67,11 +70,19 @@ class Controller
     private function cartPage()
     {
         $this->getHeader("Your Shoppingcart");
+
         $this->view->viewCartPage();
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['sendOrder']))
-            $this->sendOrderToDb();
+        $this->getFooter();
+    }
 
+    private function orderconfirmPage()
+    {
+        $this->getHeader("Order Confirmed");
+        $this->view->viewOrderConfirmPage();
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['sendOrder'])){
+            $this->sendOrderToDb();
+        }
         $this->getFooter();
     }
 
@@ -137,19 +148,29 @@ class Controller
     private function sendOrderToDb()
     {
 
-        foreach ($_SESSION['order'] as $order) {
+        $customerId = $this->sanitize($_SESSION['customer_id']);
+        $confirmed2 = $this->model->sendOrderToDb($customerId);
 
-            $id = $this->sanitize($order['id']);
-            $amount = $this->sanitize($order['amount']);
-            $price = $this->sanitize($order['price']);
-            $confirmed = $this->model->sendOrderToDb($id, $amount, $price);
+        if ($confirmed2){
+            foreach ($_SESSION['order'] as $order) {
+
+                $orderId = $this->sanitize($_SESSION['neworder']);
+                $cardId = $this->sanitize($order['id']);
+                $amount = $this->sanitize($order['amount']);
+                $price = $this->sanitize($order['price']);
+                $confirmed = $this->model->sendOrderItemToDb($orderId, $amount, $price, $cardId);
+            }
+        } else {
+            $this->view->viewErrorMessage();
         }
 
-        // if ($confirmed) {
-        //     $this->view->viewConfirmMessageSend($_SESSION['email']);
-        // } else {
-        //     $this->view->viewErrorMessage();
-        // }
+        if ($confirmed) {
+            $this->view->viewConfirmMessageSend($_SESSION['email']);
+            unset($_SESSION['order']);
+            header("refresh:2; url=index.php");
+        } else {
+            $this->view->viewErrorMessage();
+        }
     }
 
 

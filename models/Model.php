@@ -50,6 +50,42 @@ class Model
     return array('insertedCustomer' => $insertedCustomer) ?? false;
   }
 
+
+  public function sendOrderToDb($customerId)
+  {
+
+    $statement = "INSERT INTO orders (customerId )  
+                    VALUES (:customerId )";
+    $parameters = array(
+      ':customerId' => $customerId
+    );
+
+    // new order
+    $newOrder = $this->db->insert($statement, $parameters);
+
+    $_SESSION['neworder'] = $newOrder;
+
+    return array('newOrder' => $newOrder) ?? false;
+  }
+
+  public function sendOrderItemToDb($orderId, $amount, $price, $cardId)
+  {
+
+    $statement = "INSERT INTO orderitems (amount,orderId,price,productId )  
+          VALUES (:amount,:orderId,:price,:productId )";
+    $parameters = array(
+      ':amount' => (int)$amount,
+      ':orderId' => $orderId,
+      ':price' => (int)$price,
+      ':productId' => (int)$cardId
+    );
+
+    // new customer
+    $insertedCustomer = $this->db->insert($statement, $parameters);
+
+    return array('insertedCustomer' => $insertedCustomer) ?? false;
+  }
+
   public function modelLoginCustomer()
   {
     if (isset($_POST)) {
@@ -72,6 +108,7 @@ class Model
 
           // Sätta session för att förbli inloggad
           $_SESSION['email'] = $email;
+          $_SESSION['customer_id'] = $loggedInCustomer[0]['id'];
 
           return array('loggedInCustomer' => $loggedInCustomer) ?? false;
         }

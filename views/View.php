@@ -37,6 +37,11 @@ class View
         include_once("views/include/logout.php");
     }
 
+    public function viewOrderConfirmPage()
+    {
+        include_once("views/include/orderconfirm.php");
+    }
+
     public function viewCartPage()
     {
         include_once("views/include/shoppingcart.php");
@@ -168,10 +173,10 @@ class View
 
         echo $totalt;
 
-
+        if(isset($_SESSION['customer_id'])){
         $html = <<<HTML
-
-            <form method="post" action="#">
+            
+            <form method="post" action="?page=orderconfirm">
             <input type="hidden" name="sendOrder" value=true>
                 <input type="submit" value="check out">
             </form>
@@ -179,6 +184,7 @@ class View
         HTML;
 
         echo $html;
+        }
     }
 
     private function viewOneOrderInCart($order, $row)
@@ -201,6 +207,18 @@ class View
         echo $html;
 
         return $sum;
+    }
+
+    
+
+    public function viewConfirmMessageSend($userInfo)
+    {
+        $this->printMessage(
+            "<h4>$_SESSION[email] Order confirmed!!</h4>
+            ",
+            "success"
+
+        );
     }
 
     public function viewConfirmMessageRegister($userInfo)
