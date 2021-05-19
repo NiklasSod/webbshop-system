@@ -26,7 +26,7 @@ class Model
 
   public function findUserOrders() {
     $statement = "SELECT * FROM orders WHERE customerId = :customerId";
-    $params = array(":customerId" => $_SESSION['loginInfo']['loggedInCustomer'][0]['id']);
+    $params = array(":customerId" => $_SESSION['customer_id']);
     $orders = $this->db->select($statement, $params);
     return $orders ?? false;
   }

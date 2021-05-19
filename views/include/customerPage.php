@@ -1,10 +1,5 @@
 <?php
-if (isset($_SESSION['loginInfo'])) {
-    echo "CUSTOMER ID: ";
-    echo "<pre> ";
-    print_r($_SESSION['loginInfo']['loggedInCustomer'][0]['id']);
-    echo " </pre>";
-    
+if (isset($_SESSION['customer_id'])) {
     echo " ORDERS: ";
     echo "<pre> ";
     print_r($orders);
