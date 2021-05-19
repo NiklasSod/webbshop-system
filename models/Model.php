@@ -24,6 +24,13 @@ class Model
     return $card[0] ?? false;
   }
 
+  public function findUserOrders() {
+    $statement = "SELECT * FROM orders WHERE customerId = :customerId";
+    $params = array(":customerId" => $_SESSION['customer_id']);
+    $orders = $this->db->select($statement, $params);
+    return $orders ?? false;
+  }
+
   public function fetchCustomerById($id)
   {
     $statement = "SELECT * FROM customers WHERE customer_id=:id";
