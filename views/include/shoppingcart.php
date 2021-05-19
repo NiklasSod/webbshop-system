@@ -16,7 +16,7 @@
     }
 
     // Om man kommer in till sidan via varukorg-länk ska ej array pushas / fel uppstå
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['check'])) {
 
         // if order does not exist, create an array and order
         if (!isset($_SESSION['order'])) {
@@ -48,6 +48,7 @@
                 <th scope="col">Price one card</th>
                 <th scope="col">Amount</th>
                 <th scope="col">Total price</th>
+                <th>Remove</th>
             </tr>
         </thead>
         <tbody>

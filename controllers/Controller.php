@@ -73,8 +73,10 @@ class Controller
     private function customerPage()
     {
         $this->getHeader("Your page");
-        $orders = $this->model->findUserOrders();
-        $this->view->viewCustomerPage($orders);
+        if (isset($_SESSION['customer_id'])) {
+            $orders = $this->model->findUserOrders();
+            $this->view->viewCustomerPage($orders);
+        }
         $this->getFooter();
     }
 

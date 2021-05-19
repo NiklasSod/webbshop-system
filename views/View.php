@@ -148,6 +148,8 @@ class View
                             value="$card[id]">
                     <input type="hidden" name="title" 
                             value="$card[name]">
+                    <input type="hidden" name="check" 
+                            value="check">
                     <input type="hidden" name="price" 
                             value="$card[price]">
                     <input type="number" value=1 min=1 max=$amountLeft name="amount" required 
@@ -166,13 +168,16 @@ class View
 
     private function viewAllOrdersInCart()
     {
+
         $row = 0;
+        $btnPossition = -1;
         $totalt = 0;
 
         foreach ($_SESSION['order'] as $order) {
             $row += 1;
+            $btnPossition +=1;
 
-            $sum = $this->viewOneOrderInCart($order, $row);
+            $sum = $this->viewOneOrderInCart($order, $row, $btnPossition);
             $totalt += $sum;
         }
 
@@ -192,10 +197,9 @@ class View
         }
     }
 
-    private function viewOneOrderInCart($order, $row)
+    private function viewOneOrderInCart($order, $row, $btnPossition)
     {
         $sum = $order['price'] * $order['amount'];
-
 
         $html = <<<HTML
         
@@ -205,6 +209,12 @@ class View
                 <td>$order[price]</td>
                 <td>$order[amount]</td>
                 <td>$sum</td>
+                <td>
+                    <form method="POST" action="?page=shoppingcart">
+                        <input value=$btnPossition name="orderIndex" hidden="true"></input>
+                        <input type="submit"></input>
+                    </form>
+                </td>
                 </tr>
 
         HTML;
@@ -212,9 +222,7 @@ class View
         echo $html;
 
         return $sum;
-    }
-
-    
+    }    
 
     public function viewConfirmMessageSend($userInfo)
     {
