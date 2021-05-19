@@ -54,7 +54,13 @@
         </thead>
         <tbody>
     
-    <?php if(isset($_SESSION['order'])){ ?>
+    <?php 
+    if(isset($_SESSION['order'])){ 
+        if(isset($_POST['clear'])){
+            unset($_SESSION['order']);
+            exit();
+        }
+        ?>
         <form method="POST" action="#">
             <input value="clear" name="clear" hidden="true">
             <input type="submit" class="btn btn-danger m-5 btn-lg p-2 fixed-bottom" value="Empty Cart">

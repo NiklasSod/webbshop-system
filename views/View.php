@@ -164,11 +164,6 @@ class View
     private function viewAllOrdersInCart()
     {
 
-        if(isset($_POST['clear'])){
-            unset($_SESSION['order']);
-            exit();
-        }
-
         $row = 0;
         $totalt = 0;
 
