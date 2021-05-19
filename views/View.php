@@ -169,35 +169,38 @@ class View
     private function viewAllOrdersInCart()
     {
 
+        if(isset($_POST['clear'])){
+            unset($_SESSION['order']);
+            exit();
+        }
+
         $row = 0;
-        $btnPossition = -1;
         $totalt = 0;
 
         foreach ($_SESSION['order'] as $order) {
             $row += 1;
-            $btnPossition +=1;
 
-            $sum = $this->viewOneOrderInCart($order, $row, $btnPossition);
+            $sum = $this->viewOneOrderInCart($order, $row);
             $totalt += $sum;
         }
 
-        echo $totalt;
-
         if(isset($_SESSION['customer_id'])){
         $html = <<<HTML
-            
-            <form method="post" action="?page=orderconfirm">
-            <input type="hidden" name="sendOrder" value=true>
-                <input type="submit" value="check out">
+
+            <form class="m-5" method="post" action="?page=orderconfirm">
+                <input type="hidden" name="sendOrder" value=true>
+                <input type="submit" class="btn btn-success m-5 fixed-bottom" value="Check Out">
             </form>
+            
 
         HTML;
-
+        
         echo $html;
+        echo "<h6>Order totall: $totalt</h6>";
         }
     }
 
-    private function viewOneOrderInCart($order, $row, $btnPossition)
+    private function viewOneOrderInCart($order, $row)
     {
         $sum = $order['price'] * $order['amount'];
 
@@ -209,12 +212,6 @@ class View
                 <td>$order[price]</td>
                 <td>$order[amount]</td>
                 <td>$sum</td>
-                <td>
-                    <form method="POST" action="?page=shoppingcart">
-                        <input value=$btnPossition name="orderIndex" hidden="true"></input>
-                        <input type="submit"></input>
-                    </form>
-                </td>
                 </tr>
 
         HTML;
