@@ -122,7 +122,7 @@ class Controller
 
     private function loginadmin()
     {
-        $this->getHeader("login admin");
+        $this->getHeader("Admin login");
         $this->view->loginAdminPage();
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST')
