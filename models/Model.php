@@ -72,6 +72,7 @@ class Model
 
           // Sätta session för att förbli inloggad
           $_SESSION['email'] = $email;
+          $_SESSION['customer_id'] = $loggedInCustomer[0]['id'];
 
           return array('loggedInCustomer' => $loggedInCustomer) ?? false;
         }

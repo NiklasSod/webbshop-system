@@ -12,7 +12,7 @@ class Database
   private $conn = null;
 
   // $servername = "localhost:3307" ta bort :3307 från localhost om den finns
-  public function __construct($database, $username = "root", $password = "root", $servername = "localhost:3307")
+  public function __construct($database, $username = "root", $password = "root", $servername = "localhost:3300")
   {
     // Data Source Name
     $dsn = "mysql:host=$servername;dbname=$database;charset=UTF8";
