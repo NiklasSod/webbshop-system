@@ -9,11 +9,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="./styles/bootstrap.css">
   <link rel="stylesheet" href="./styles/styles.css">
-  <title>Magic Card Shop</title>
+  <title><?php echo $title; ?> - Magic Card Shop</title>
 </head>
 
 <body>
-
   <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
     <a class="navbar-brand" href="?page=default">Magic Card Shop</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
@@ -46,6 +45,6 @@
       </span>
     </div>
   </nav>
-
-  <div class="container" style="margin-top: 90px;">
+  <h2 class="text-center m-5 p-3"><?php echo $title; ?></h2>
+  <div class="container">
     <div class="row">
