@@ -48,9 +48,12 @@
                 <th scope="col">Price one card</th>
                 <th scope="col">Amount</th>
                 <th scope="col">Total price</th>
-                <th>Remove</th>
             </tr>
         </thead>
+        <form method="POST" action="#">
+            <input value="clear" name="clear" hidden="true">
+            <input type="submit" value="Empty Cart">
+        </form>
         <tbody>
 
 </body>

@@ -169,15 +169,18 @@ class View
     private function viewAllOrdersInCart()
     {
 
+        if(isset($_POST['clear'])){
+            unset($_SESSION['order']);
+            exit();
+        }
+
         $row = 0;
-        $btnPossition = -1;
         $totalt = 0;
 
         foreach ($_SESSION['order'] as $order) {
             $row += 1;
-            $btnPossition +=1;
 
-            $sum = $this->viewOneOrderInCart($order, $row, $btnPossition);
+            $sum = $this->viewOneOrderInCart($order, $row);
             $totalt += $sum;
         }
 
@@ -197,7 +200,7 @@ class View
         }
     }
 
-    private function viewOneOrderInCart($order, $row, $btnPossition)
+    private function viewOneOrderInCart($order, $row)
     {
         $sum = $order['price'] * $order['amount'];
 
@@ -209,12 +212,6 @@ class View
                 <td>$order[price]</td>
                 <td>$order[amount]</td>
                 <td>$sum</td>
-                <td>
-                    <form method="POST" action="?page=shoppingcart">
-                        <input value=$btnPossition name="orderIndex" hidden="true"></input>
-                        <input type="submit"></input>
-                    </form>
-                </td>
                 </tr>
 
         HTML;
