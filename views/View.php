@@ -184,19 +184,19 @@ class View
             $totalt += $sum;
         }
 
-        echo $totalt;
-
         if(isset($_SESSION['customer_id'])){
         $html = <<<HTML
             
-            <form method="post" action="?page=orderconfirm">
+            <form class="m-5" method="post" action="?page=orderconfirm">
             <input type="hidden" name="sendOrder" value=true>
-                <input type="submit" value="check out">
+                <input type="submit" class="btn btn-success m-5 fixed-bottom" value="Check Out">
             </form>
+            
 
         HTML;
-
+        
         echo $html;
+        echo "<h6>Order totall: $totalt</h6>";
         }
     }
 

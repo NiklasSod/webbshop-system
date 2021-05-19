@@ -50,11 +50,12 @@
                 <th scope="col">Total price</th>
             </tr>
         </thead>
+        <tbody>
+
         <form method="POST" action="#">
             <input value="clear" name="clear" hidden="true">
-            <input type="submit" value="Empty Cart">
+            <input class="btn btn-danger m-5" style="position:absolute;bottom:0px;right:0px;margin:0;padding:10px 3px;" type="submit" value="Empty Cart">
         </form>
-        <tbody>
 
 </body>
 
