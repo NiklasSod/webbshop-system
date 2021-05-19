@@ -37,6 +37,8 @@
         if (!isset($updatedAmount)) {
             array_push($_SESSION['order'], $_POST);
         }
+        header( "Location: {$_SERVER['REQUEST_URI']}", true, 303 );
+        exit();
     }
     ?>
 
@@ -54,7 +56,7 @@
 
         <form method="POST" action="#">
             <input value="clear" name="clear" hidden="true">
-            <input class="btn btn-danger m-5" style="position:absolute;bottom:0px;right:0px;margin:0;padding:10px 3px;" type="submit" value="Empty Cart">
+            <input class="btn btn-danger m-5" style="position:absolute;bottom:0px;right:0px;margin:0;padding:6px;" type="submit" value="Empty Cart">
         </form>
 
 </body>

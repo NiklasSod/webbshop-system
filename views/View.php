@@ -186,9 +186,9 @@ class View
 
         if(isset($_SESSION['customer_id'])){
         $html = <<<HTML
-            
+
             <form class="m-5" method="post" action="?page=orderconfirm">
-            <input type="hidden" name="sendOrder" value=true>
+                <input type="hidden" name="sendOrder" value=true>
                 <input type="submit" class="btn btn-success m-5 fixed-bottom" value="Check Out">
             </form>
             
