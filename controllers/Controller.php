@@ -101,7 +101,7 @@ class Controller
 
     private function register()
     {
-        $this->getHeader("register");
+        $this->getHeader("Register here");
         $this->view->registerPage();
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST')
@@ -111,7 +111,7 @@ class Controller
 
     private function login()
     {
-        $this->getHeader("login");
+        $this->getHeader("Please login");
         $this->view->loginPage();
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST')
@@ -141,7 +141,7 @@ class Controller
 
     private function detailPage()
     {
-        $this->getHeader("Beställning");
+        $this->getHeader("Card detail page");
 
         $id = $this->sanitize($_GET['id']);
         $card = $this->model->fetchCardById($id);
