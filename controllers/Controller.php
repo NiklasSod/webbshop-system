@@ -36,6 +36,9 @@ class Controller
             case "loginadmin":
                 $this->loginadmin();
                 break;
+            case "customerPage":
+                $this->customerPage();
+                break;
             case "logout":
                 $this->view->logoutPage();
                 break;
@@ -64,6 +67,14 @@ class Controller
     {
         $this->getHeader("About us");
         $this->view->viewAboutPage();
+        $this->getFooter();
+    }
+
+    private function customerPage()
+    {
+        $this->getHeader("Your page");
+        $orders = $this->model->findUserOrders();
+        $this->view->viewCustomerPage($orders);
         $this->getFooter();
     }
 
@@ -194,7 +205,8 @@ class Controller
         $CustomerEmail = $this->sanitize($_POST['email']);
         $CustomerPassword = $this->sanitize($_POST['password']);
 
-        $confirmed = $this->model->modelLoginCustomer($CustomerEmail, $CustomerPassword);
+        $_SESSION['loginInfo'] = $this->model->modelLoginCustomer($CustomerEmail, $CustomerPassword);
+        $confirmed = $_SESSION['loginInfo'];
 
         if ($confirmed) {
             $this->view->viewConfirmMessageLogin($CustomerEmail . "... redirecting to homepage");

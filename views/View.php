@@ -18,6 +18,11 @@ class View
         include_once("views/include/about.php");
     }
 
+    public function viewCustomerPage($orders)
+    {
+        include_once("views/include/customerPage.php");
+    }
+
     public function registerPage()
     {
         include_once("views/include/register.php");
