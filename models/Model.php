@@ -30,6 +30,13 @@ class Model
 
   
 
+  public function deleteProduct($cardId)
+  {
+    $cardDelete = $this->db->delete("DELETE FROM products WHERE id = $cardId");
+    return $cardDelete;
+  }
+  
+
   public function fetchCardById($id)
   {
     $statement = "SELECT * FROM products WHERE id = :id";

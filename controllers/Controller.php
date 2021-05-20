@@ -151,6 +151,9 @@ class Controller
 
     private function adminDeletePage() {
         $this->getHeader("Admin Delete page");
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cardId'])){
+            $this->adminDeleteProduct();
+        }
         $cards = $this->model->fetchAllCards();
         $this->view->viewAdminDeletePage($cards);
         $this->getFooter();
@@ -214,10 +217,24 @@ class Controller
         if ($confirmed) {
             $this->view->viewErrorMessage();
         } else {
-            $this->view->viewConfirmMessageSuccess($orderId);
+            $type = "sent";
+            $this->view->viewConfirmMessageSuccess($orderId, $type);
         }
     }
 
+    
+
+    private function adminDeleteProduct() {
+        $cardId = $this->sanitize($_POST['cardId']);
+        $confirmed = $this->model->deleteProduct($cardId);
+
+        if ($confirmed) {
+            $this->view->viewErrorMessage();
+        } else {
+            $type = "deleted";
+            $this->view->viewConfirmMessageSuccess($cardId, $type);
+        }
+    }
 
 
 

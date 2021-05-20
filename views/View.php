@@ -121,7 +121,7 @@ class View
             <td>$order[RegisterDate]</td>
             <td><form action="#" method="post">
                     <input type="hidden" name="orderId" value="$order[id]">
-                    <input type="submit" class="" value="Send Order">
+                    <input type="submit" class="btn btn-primary" value="Send Order">
                 </form>
             </td>
             </tr>
@@ -251,6 +251,7 @@ class View
         return $sum;
     }    
 
+    // MESSAGES-----------------
     public function viewConfirmMessageSend($userInfo)
     {
         $this->printMessage(
@@ -262,10 +263,10 @@ class View
         );
     }
 
-    public function viewConfirmMessageSuccess($orderId)
+    public function viewConfirmMessageSuccess($id, $type)
     {
         $this->printMessage(
-            "<h4 class='text-center'>Order $orderId was successfully sent</h4>
+            "<h4 class='text-center'>$id was successfully $type</h4>
             ",
             "success"
 
