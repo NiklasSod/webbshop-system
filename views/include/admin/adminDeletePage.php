@@ -26,7 +26,6 @@ foreach ($cards as $card) {
 
 function viewOneProduct($card){
     $html = <<<HTML
-
         <tr>
             <td>$card[id]</td>
             <td>$card[name]</td>
