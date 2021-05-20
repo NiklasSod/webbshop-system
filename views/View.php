@@ -32,7 +32,7 @@ class View
         include_once("views/include/login.php");
     }
 
-    public function logoutPage()
+    public function logOut()
     {
         include_once("views/include/logout.php");
     }
@@ -113,7 +113,6 @@ class View
     public function viewOneOrderToHandle($order, $row)
     {
         $html = <<<HTML
-
             <tr>
             <th scope="row">$row</th>
             <td>$order[id]</td>

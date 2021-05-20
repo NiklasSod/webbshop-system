@@ -33,11 +33,11 @@ class Controller
             case "login":
                 $this->login();
                 break;
-            case "customerPage":
+            case "customerpage":
                 $this->customerPage();
                 break;
             case "logout":
-                $this->view->logoutPage();
+                $this->view->logOut();
                 break;
             case "shoppingcart":
                 $this->cartPage();

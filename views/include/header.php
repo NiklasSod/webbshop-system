@@ -27,7 +27,7 @@
           <a class="nav-link" href="?page=about">About us</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="?page=customerPage">Profile</a>
+          <a class="nav-link" href="?page=customerpage">Profile</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="?page=shoppingcart">Shopping Cart</a>
