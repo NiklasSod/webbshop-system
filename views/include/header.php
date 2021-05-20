@@ -6,6 +6,7 @@ if (isset($_GET['page']) && $_GET['page'] === "about") {
 } else {
   $bootstrap = "text-center m-5 p-3";
   $css = "./styles/styles.css";
+  $divRow = "<div class='row'>";
 } ?>
 
 <!DOCTYPE html>
@@ -64,4 +65,4 @@ if (isset($_GET['page']) && $_GET['page'] === "about") {
   </nav>
   <h2 class="<?=$bootstrap;?>"><?php echo $title; ?></h2>
   <div class="container">
-    <div class="row">
+    <?php echo $divRow ?? "";
