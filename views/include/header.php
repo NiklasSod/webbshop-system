@@ -1,4 +1,12 @@
-<?php session_start(); ?>
+<?php session_start(); 
+
+if (isset($_GET['page']) && $_GET['page'] === "about") {
+  $bootstrap = "";
+  $css = "./styles/style2.css";
+} else {
+  $bootstrap = "text-center m-5 p-3";
+  $css = "./styles/styles.css";
+} ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -8,7 +16,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="./styles/bootstrap.css">
-  <link rel="stylesheet" href="./styles/styles.css">
+  <link rel="stylesheet" href="<?=$css;?>">
   <title><?php echo $title; ?> - Magic Card Shop</title>
 </head>
 
@@ -54,6 +62,6 @@
       </span>
     </div>
   </nav>
-  <h2 class="text-center m-5 p-3"><?php echo $title; ?></h2>
+  <h2 class="<?=$bootstrap;?>"><?php echo $title; ?></h2>
   <div class="container">
     <div class="row">

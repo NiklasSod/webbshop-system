@@ -28,14 +28,11 @@ class Model
     return $orderSent;
   }
 
-  
-
   public function deleteProduct($cardId)
   {
     $cardDelete = $this->db->delete("DELETE FROM products WHERE id = $cardId");
     return $cardDelete;
   }
-  
 
   public function fetchCardById($id)
   {
@@ -77,7 +74,6 @@ class Model
 
     return array('insertedCustomer' => $insertedCustomer) ?? false;
   }
-
 
   public function sendOrderToDb($customerId)
   {

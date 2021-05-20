@@ -185,7 +185,6 @@ class View {
             <h4 class='text-center'>Order confirmed!</h4>
             ",
             "success"
-
         );
     }
 
@@ -194,7 +193,6 @@ class View {
             "<h4 class='text-center'>$id was successfully $type</h4>
             ",
             "success"
-
         );
     }
 
@@ -203,7 +201,6 @@ class View {
             "<h4>User $userInfo Created, welcome! Please log in.</h4>
             ",
             "success"
-
         );
     }
 
@@ -212,7 +209,6 @@ class View {
             "<h4>User $userInfo successfully logged in!</h4>
             ",
             "success"
-
         );
     }
 

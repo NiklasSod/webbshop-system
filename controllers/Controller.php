@@ -71,7 +71,7 @@ class Controller
 
     private function about()
     {
-        $this->getHeader("About us");
+        $this->getHeader(null);
         $this->view->viewAboutPage();
         $this->getFooter();
     }
