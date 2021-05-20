@@ -131,6 +131,9 @@ class Controller
 
     private function adminOrderPage() {
         $this->getHeader("Admin Order page");
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['orderId'])){
+            $this->adminChangeOrderStatus();
+        }
         $this->view->viewAdminOrderPage();
         $this->adminOrderHandling();
         $this->getFooter();
@@ -192,6 +195,19 @@ class Controller
             $this->view->viewErrorMessage();
         }
     }
+
+    private function adminChangeOrderStatus() {
+        $orderId = $this->sanitize($_POST['orderId']);
+        $confirmed = $this->model->changeOrderStatus($orderId);
+
+        if ($confirmed) {
+            $this->view->viewErrorMessage();
+        } else {
+            $this->view->viewConfirmMessageSuccess($orderId);
+        }
+    }
+
+
 
 
     private function registerUserToDb()

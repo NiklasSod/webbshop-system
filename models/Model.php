@@ -18,9 +18,17 @@ class Model
 
   public function fetchAllOrders()
   {
-    $adminOrderHandling = $this->db->select("SELECT * FROM orders");
+    $adminOrderHandling = $this->db->select("SELECT * FROM orders WHERE orderStatus IS null");
     return $adminOrderHandling;
   }
+
+  public function changeOrderStatus($orderId)
+  {
+    $orderSent = $this->db->update("UPDATE orders SET orderStatus = 1 WHERE id = $orderId");
+    return $orderSent;
+  }
+
+  
 
   public function fetchCardById($id)
   {

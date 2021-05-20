@@ -104,7 +104,7 @@ class View
     }
 
     
-
+    // one order admin
     public function viewOneOrderToHandle($order, $row)
     {
         $html = <<<HTML
@@ -114,7 +114,11 @@ class View
             <td>$order[id]</td>
             <td>$order[customerId]</td>
             <td>$order[RegisterDate]</td>
-            <td>$order[orderStatus]</td>
+            <td><form action="#" method="post">
+                    <input type="hidden" name="orderId" value="$order[id]">
+                    <input type="submit" class="" value="Send Order">
+                </form>
+            </td>
             </tr>
 
         HTML;
@@ -170,6 +174,7 @@ class View
         echo $html;
     }
 
+    // all admin orders
     public function viewAllOrdersToHandle($ordersToHandle)
     {
         $row = 0;
@@ -246,6 +251,16 @@ class View
         $this->printMessage(
             "<h4 class='text-center'>Thank you! $_SESSION[email]</h4>
             <h4 class='text-center'>Order confirmed!</h4>
+            ",
+            "success"
+
+        );
+    }
+
+    public function viewConfirmMessageSuccess($orderId)
+    {
+        $this->printMessage(
+            "<h4 class='text-center'>Order $orderId was successfully sent</h4>
             ",
             "success"
 

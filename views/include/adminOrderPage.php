@@ -6,7 +6,7 @@ if (!isset($_SESSION['isAdmin'])) {
 
 ?>
 
-<table class="table table-hover">
+<table class="table table-hover mt-3">
         <thead>
             <tr>
                 <th scope="col">#</th>
