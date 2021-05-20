@@ -24,7 +24,7 @@ class Controller
             case "about":
                 $this->about();
                 break;
-            case "order":
+            case "detailpage":
                 $this->detailPage();
                 break;
             case "register":
@@ -32,9 +32,6 @@ class Controller
                 break;
             case "login":
                 $this->login();
-                break;
-            case "loginadmin":
-                $this->loginadmin();
                 break;
             case "customerPage":
                 $this->customerPage();
@@ -47,6 +44,12 @@ class Controller
                 break;
             case "orderconfirm":
                 $this->orderconfirmPage();
+                break;
+            case "adminorderpage":
+                $this->adminOrderPage();
+                break;
+            case "adminproductpage":
+                $this->adminProductPage();
                 break;
             default:
                 $this->getAllCards();
@@ -83,9 +86,7 @@ class Controller
     private function cartPage()
     {
         $this->getHeader("Your Shoppingcart");
-
         $this->view->viewCartPage();
-
         $this->getFooter();
     }
 
@@ -120,22 +121,17 @@ class Controller
         $this->getFooter();
     }
 
-    private function loginadmin()
-    {
-        $this->getHeader("Admin login");
-        $this->view->loginAdminPage();
-
-        if ($_SERVER['REQUEST_METHOD'] === 'POST')
-            $this->validateUserLogin();
-
-        $this->getFooter();
-    }
-
     private function getAllCards()
     {
         $this->getHeader("Welcome");
         $cards = $this->model->fetchAllCards();
         $this->view->viewAllCards($cards);
+        $this->getFooter();
+    }
+
+    private function adminOrderPage() {
+        $this->getHeader("Admin order page");
+        $this->view->viewAdminOrderPage();
         $this->getFooter();
     }
 
@@ -207,11 +203,11 @@ class Controller
         $CustomerEmail = $this->sanitize($_POST['email']);
         $CustomerPassword = $this->sanitize($_POST['password']);
 
-        $_SESSION['loginInfo'] = $this->model->modelLoginCustomer($CustomerEmail, $CustomerPassword);
-        $confirmed = $_SESSION['loginInfo'];
-
+        $confirmed = $this->model->modelLoginCustomer($CustomerEmail, $CustomerPassword);
+        
         if ($confirmed) {
             $this->view->viewConfirmMessageLogin($CustomerEmail . "... redirecting to homepage");
+
             header("refresh:1; url=index.php");
         } else {
             $this->view->viewErrorMessage($CustomerEmail);

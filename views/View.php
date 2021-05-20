@@ -32,14 +32,13 @@ class View
         include_once("views/include/login.php");
     }
 
-    public function loginAdminPage()
-    {
-        include_once("views/include/loginadmin.php");
-    }
-
     public function logoutPage()
     {
         include_once("views/include/logout.php");
+    }
+
+    public function viewAdminOrderPage() {
+        include_once("views/include/adminOrderPage.php");
     }
 
     public function viewOrderConfirmPage()
@@ -73,7 +72,7 @@ class View
 
     public function viewOneCard($card)
     {
-        if (isset($_GET['page']) && $_GET['page'] === 'order') {
+        if (isset($_GET['page']) && $_GET['page'] === 'detailpage') {
             $bootstrap = "col-md-5 mx-auto";
         } else {
             $bootstrap = "col-md-4";
@@ -82,7 +81,7 @@ class View
         $html = <<<HTML
         
         <div class=$bootstrap>
-            <a href="?page=order&id=$card[id]">
+            <a href="?page=detailpage&id=$card[id]">
                 <div class="card m-1">
                     <img class="card-img-top img-thumbnail" 
                         src="$card[image]" alt="$card[name]">

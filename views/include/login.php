@@ -11,7 +11,6 @@
 
         <div class="text-center">
             <h5 class="mt-2">Not a user yet? <a href=" ?page=register">Register here!</a></h5>
-            <h5 class="mt-5"><a href=" ?page=loginadmin">Admin login </a></h5>
         </div>
 
     </form>

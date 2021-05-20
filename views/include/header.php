@@ -32,6 +32,15 @@
         <li class="nav-item">
           <a class="nav-link" href="?page=shoppingcart">Shopping Cart</a>
         </li>
+        <?php if (isset($_SESSION['isAdmin'])) { ?>
+          <li class="nav-item">
+            <a class="nav-link" href="?page=adminorderpage">Orders</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="?page=adminproductpage">Products</a>
+          </li>
+        <?php } ?>
+        
 
       </ul>
       <span class="navbar-text">
