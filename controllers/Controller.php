@@ -51,6 +51,9 @@ class Controller
             case "adminproductpage":
                 $this->adminProductPage();
                 break;
+            case "delete":
+                $this->adminDeletePage();
+                break;
             default:
                 $this->getAllCards();
         }
@@ -129,6 +132,7 @@ class Controller
         $this->getFooter();
     }
 
+    // ADMIN ---------------------------------------
     private function adminOrderPage() {
         $this->getHeader("Admin Order page");
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['orderId'])){
@@ -142,6 +146,13 @@ class Controller
     private function adminProductPage() {
         $this->getHeader("Admin Product page");
         $this->view->viewAdminProductPage();
+        $this->getFooter();
+    }
+
+    private function adminDeletePage() {
+        $this->getHeader("Admin Delete page");
+        $cards = $this->model->fetchAllCards();
+        $this->view->viewAdminDeletePage($cards);
         $this->getFooter();
     }
 

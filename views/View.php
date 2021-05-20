@@ -45,6 +45,11 @@ class View
         include_once("views/include/adminProductPage.php");
     }
 
+    public function viewAdminDeletePage($cards)
+    {
+        include_once("views/include/admin/adminDeletePage.php");
+    }
+
     public function viewOrderConfirmPage()
     {
         include_once("views/include/orderconfirm.php");
