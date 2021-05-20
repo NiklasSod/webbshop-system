@@ -130,8 +130,15 @@ class Controller
     }
 
     private function adminOrderPage() {
-        $this->getHeader("Admin order page");
+        $this->getHeader("Admin Order page");
         $this->view->viewAdminOrderPage();
+        $this->adminOrderHandling();
+        $this->getFooter();
+    }
+
+    private function adminProductPage() {
+        $this->getHeader("Admin Product page");
+        $this->view->viewAdminProductPage();
         $this->getFooter();
     }
 
@@ -144,11 +151,6 @@ class Controller
 
         if ($card)
             $this->view->viewOrderPage($card);
-
-        // Funktion för att beställa mängd antal kort!!
-        //
-        // if ($_SERVER['REQUEST_METHOD'] === 'POST')
-        //     $this->registerUserToDb();
 
         $this->getFooter();
     }
@@ -178,6 +180,15 @@ class Controller
             unset($_SESSION['order']);
             header("refresh:2; url=index.php");
         } else {
+            $this->view->viewErrorMessage();
+        }
+    }
+
+    private function adminOrderHandling() {
+        $ordersToHandle = $this->model->fetchAllOrders();
+        $this->view->viewAllOrdersToHandle($ordersToHandle);
+
+        if (!$ordersToHandle) {
             $this->view->viewErrorMessage();
         }
     }

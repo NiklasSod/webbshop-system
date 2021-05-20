@@ -16,6 +16,12 @@ class Model
     return $cards;
   }
 
+  public function fetchAllOrders()
+  {
+    $adminOrderHandling = $this->db->select("SELECT * FROM orders");
+    return $adminOrderHandling;
+  }
+
   public function fetchCardById($id)
   {
     $statement = "SELECT * FROM products WHERE id = :id";

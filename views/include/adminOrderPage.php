@@ -4,4 +4,16 @@ if (!isset($_SESSION['isAdmin'])) {
     die();
 }
 
-echo "hej";
+?>
+
+<table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Order Id</th>
+                <th scope="col">Customer Id</th>
+                <th scope="col">Order Date</th>
+                <th scope="col">Order Status</th>
+            </tr>
+        </thead>
+        <tbody>

@@ -41,6 +41,10 @@ class View
         include_once("views/include/adminOrderPage.php");
     }
 
+    public function viewAdminProductPage() {
+        include_once("views/include/adminProductPage.php");
+    }
+
     public function viewOrderConfirmPage()
     {
         include_once("views/include/orderconfirm.php");
@@ -99,6 +103,25 @@ class View
         echo $html;
     }
 
+    
+
+    public function viewOneOrderToHandle($order, $row)
+    {
+        $html = <<<HTML
+
+            <tr>
+            <th scope="row">$row</th>
+            <td>$order[id]</td>
+            <td>$order[customerId]</td>
+            <td>$order[RegisterDate]</td>
+            <td>$order[orderStatus]</td>
+            </tr>
+
+        HTML;
+
+        echo $html;
+    }
+
     public function viewCardDetails($card)
     {
         $amountLeft =  $this->updatedTotalCardAmount($card);
@@ -145,6 +168,15 @@ class View
         HTML;
 
         echo $html;
+    }
+
+    public function viewAllOrdersToHandle($ordersToHandle)
+    {
+        $row = 0;
+        foreach ($ordersToHandle as $order) {
+            $row += 1;
+            $this->viewOneOrderToHandle($order, $row);
+        }
     }
 
     public function viewAllCards($cards)
