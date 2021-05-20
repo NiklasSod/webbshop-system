@@ -73,22 +73,28 @@ class View
 
     public function viewOneCard($card)
     {
+        if (isset($_GET['page']) && $_GET['page'] === 'order') {
+            $bootstrap = "col-md-5 mx-auto";
+        } else {
+            $bootstrap = "col-md-4";
+        }
+
         $html = <<<HTML
         
-            <div class="col-md-4">
-                <a href="?page=order&id=$card[id]">
-                    <div class="card m-1">
-                        <img class="card-img-top img-thumbnail" 
-                            src="$card[image]" alt="$card[name]">
-                        <div class="card-body">
-                            <div class="card-title text-center">
-                                <h5>$card[name]</h5>
-                                <p>Pris: $card[price] kr</p>
-                            </div>
+        <div class=$bootstrap>
+            <a href="?page=order&id=$card[id]">
+                <div class="card m-1">
+                    <img class="card-img-top img-thumbnail" 
+                        src="$card[image]" alt="$card[name]">
+                    <div class="card-body">
+                        <div class="card-title text-center">
+                            <h5>$card[name]</h5>
                         </div>
                     </div>
-                </a>
-            </div>  <!-- col -->
+                </div>
+            </a>
+        </div>
+
         HTML;
 
         echo $html;
@@ -98,17 +104,44 @@ class View
     {
         $amountLeft =  $this->updatedTotalCardAmount($card);
 
+        $showbtn = 'enabled';
+        $btnText = 'Add card to shopping cart';
+
+        if ($amountLeft == '0') {
+
+            $showbtn = 'disabled';
+            $btnText = 'This item is out of stock';
+        } 
+
         $html = <<<HTML
         
-            <div class="col-md-5">
-                    <div class="card m-1">
-                        <div class="card-body">
-                            <div class="card-title text-center">
-                                <h5>$card[description]</h5>
-                                <p>Antal kvar: $amountLeft</p>
-                            </div>
+            <div class="col-md-5 mx-auto">
+                <h5 class="mb-2">Select number of cards</h5>
+                <form action="?page=shoppingcart" method="post">
+                    <input type="hidden" name="id" 
+                            value="$card[id]">
+                    <input type="hidden" name="title" 
+                            value="$card[name]">
+                    <input type="hidden" name="check" 
+                            value="check">
+                    <input type="hidden" name="price" 
+                            value="$card[price]">
+                    <input type="number" value=1 min=1 max=$amountLeft name="amount" required 
+                            class="form-control form-control-lg my-2" 
+                            >
+                
+                    <input type="submit" class="form-control my-2 btn btn-lg btn-outline-success" 
+                            value="$btnText" $showbtn>
+                </form>
+                <h2 class="text-center mt-3 mb-4">Price: $$card[price]</h2>
+                <div class="card m-1">
+                    <div class="card-body">
+                        <div class="card-title text-center">
+                            <h5>$card[description]</h5>
+                            <p>Amount left: $amountLeft</p>
                         </div>
                     </div>
+                </div>
             </div>  <!-- col -->
         HTML;
 
@@ -126,53 +159,10 @@ class View
     {
         $this->viewOneCard($card);
         $this->viewCardDetails($card);
-        $this->viewOrderForm($card);
-    }
-
-    public function viewOrderForm($card)
-    {
-        $amountLeft =  $this->updatedTotalCardAmount($card);
-
-        $showbtn = 'enabled';
-
-        if ($amountLeft == '0') {
-
-            $showbtn = 'disabled';
-        }
-
-        $html = <<<HTML
-            <div class="col-md-4 mx-auto">
-            
-                <form action="?page=shoppingcart" method="post">
-                    <input type="hidden" name="id" 
-                            value="$card[id]">
-                    <input type="hidden" name="title" 
-                            value="$card[name]">
-                    <input type="hidden" name="check" 
-                            value="check">
-                    <input type="hidden" name="price" 
-                            value="$card[price]">
-                    <input type="number" value=1 min=1 max=$amountLeft name="amount" required 
-                            class="form-control form-control-lg my-2" 
-                            >
-                
-                    <input type="submit" class="form-control my-2 btn btn-lg btn-outline-success" 
-                            value="Lägg till i varukorgen" $showbtn>
-                </form>
-                
-            <!-- col avslutas efter ett meddelande från viewConfirmMessage eller viewErrorMessage -->
-        HTML;
-
-        echo $html;
     }
 
     private function viewAllOrdersInCart()
     {
-
-        if(isset($_POST['clear'])){
-            unset($_SESSION['order']);
-            exit();
-        }
 
         $row = 0;
         $totalt = 0;
@@ -186,10 +176,9 @@ class View
 
         if(isset($_SESSION['customer_id'])){
         $html = <<<HTML
-
-            <form class="m-5" method="post" action="?page=orderconfirm">
+        <form class="m-5" method="post" action="?page=orderconfirm">
                 <input type="hidden" name="sendOrder" value=true>
-                <input type="submit" class="btn btn-success m-5 fixed-bottom" value="Check Out">
+                <input type="submit" class="btn btn-lg btn-success m-5 p-2" style="position:absolute;bottom:0px;right:0px;margin:0;padding:6px;" value="Check Out">
             </form>
             
 
@@ -224,7 +213,8 @@ class View
     public function viewConfirmMessageSend($userInfo)
     {
         $this->printMessage(
-            "<h4>$_SESSION[email] Order confirmed!!</h4>
+            "<h4 class='text-center'>Thank you! $_SESSION[email]</h4>
+            <h4 class='text-center'>Order confirmed!</h4>
             ",
             "success"
 
@@ -234,7 +224,7 @@ class View
     public function viewConfirmMessageRegister($userInfo)
     {
         $this->printMessage(
-            "<h4>User $userInfo Created, pls login</h4>
+            "<h4>User $userInfo Created, welcome! Please log in.</h4>
             ",
             "success"
 
@@ -244,7 +234,7 @@ class View
     public function viewConfirmMessageLogin($userInfo)
     {
         $this->printMessage(
-            "<h4>User $userInfo logged in!</h4>
+            "<h4>User $userInfo successfully logged in!</h4>
             ",
             "success"
 
@@ -254,7 +244,8 @@ class View
     public function viewErrorMessage()
     {
         $this->printMessage(
-            "<h4>Något gick fel, försök igen eller kontakta kundkänst</h4>
+            "<h4>Something went wrong, please double check your email and password.</h4>
+            <h4>Contact customer support if error still remains.</h4>
             </div> <!-- col  avslutar Beställningsformulär -->
             ",
             "warning"
@@ -269,7 +260,7 @@ class View
     public function printMessage($message, $messageType = "danger")
     {
         $html = <<< HTML
-            <div class="my-2 alert alert-$messageType">
+            <div class="my-2 col-md-8 mx-auto alert alert-$messageType">
                 $message
             </div>
         HTML;

@@ -12,7 +12,7 @@
     <?php
     // Ej inloggad ger direkt info om att logga in och scriptet stoppas
     if (!isset($_SESSION['email'])) {
-        echo "<h5 class='col-md-12'>Please <a href='?page=login'>Log In</a> or <a href='?page=register'>Register</a> to proceed</h5>";
+        echo "<h5 class='col-md-12 mb-3'>Please <a href='?page=login'>log In</a> or <a href='?page=register'>register</a> to proceed</h5>";
     }
 
     // Om man kommer in till sidan via varukorg-länk ska ej array pushas / fel uppstå
@@ -54,14 +54,18 @@
         </thead>
         <tbody>
     
-    <?php if(isset($_SESSION['order'])){ ?>
+    <?php 
+    if(isset($_SESSION['order'])){ 
+        if(isset($_POST['clear'])){
+            unset($_SESSION['order']);
+            exit();
+        }
+        ?>
         <form method="POST" action="#">
             <input value="clear" name="clear" hidden="true">
-            <input class="btn btn-danger m-5" style="position:absolute;bottom:0px;right:0px;margin:0;padding:6px;" type="submit" value="Empty Cart">
+            <input type="submit" class="btn btn-danger m-5 btn-lg p-2 fixed-bottom" value="Empty Cart">
         </form>
     <?php } ?>
-
-
 
 
 </body>
