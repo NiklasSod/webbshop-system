@@ -65,7 +65,62 @@
             <input value="clear" name="clear" hidden="true">
             <input type="submit" class="btn btn-danger m-5 btn-lg p-2 fixed-bottom" value="Empty Cart">
         </form>
-    <?php } ?>
+    <?php }
+
+    if (isset($_SESSION['order'])) {
+        viewAllOrdersInCart();
+    }
+
+    function viewAllOrdersInCart()
+    {
+
+        $row = 0;
+        $totalt = 0;
+
+        foreach ($_SESSION['order'] as $order) {
+            $row += 1;
+
+            $sum = viewOneOrderInCart($order, $row);
+            $totalt += $sum;
+        }
+
+        if(isset($_SESSION['customer_id'])){
+        $html = <<<HTML
+        <form class="m-5" method="post" action="?page=orderconfirm">
+                <input type="hidden" name="sendOrder" value=true>
+                <input type="submit" class="btn btn-lg btn-success m-5 p-2" style="position:absolute;bottom:0px;right:0px;margin:0;padding:6px;" value="Check Out">
+            </form>
+            
+
+        HTML;
+        
+        echo $html;
+        echo "<h6>Order totall: $totalt</h6>";
+        }
+    }
+
+    function viewOneOrderInCart($order, $row)
+    {
+        $sum = $order['price'] * $order['amount'];
+
+        $html = <<<HTML
+        
+                <tr>
+                <th scope="row">$row</th>
+                <td>$order[title]</td>
+                <td>$order[price]</td>
+                <td>$order[amount]</td>
+                <td>$sum</td>
+                </tr>
+
+        HTML;
+
+        echo $html;
+
+        return $sum;
+    }
+
+    ?>
 
 
 </body>

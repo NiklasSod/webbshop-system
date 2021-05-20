@@ -1,39 +1,31 @@
 <?php
 
-class View
-{
+class View {
 
-    public function viewHeader($title)
-    {
+    public function viewHeader($title) {
         include_once("views/include/header.php");
     }
 
-    public function viewFooter()
-    {
+    public function viewFooter() {
         include_once("views/include/footer.php");
     }
 
-    public function viewAboutPage()
-    {
+    public function viewAboutPage() {
         include_once("views/include/about.php");
     }
 
-    public function viewCustomerPage($orders)
-    {
+    public function viewCustomerPage($orders) {
         include_once("views/include/customerPage.php");
     }
 
-    public function registerPage()
-    {
+    public function registerPage() {
         include_once("views/include/register.php");
     }
-    public function loginPage()
-    {
+    public function loginPage() {
         include_once("views/include/login.php");
     }
 
-    public function logOut()
-    {
+    public function logOut() {
         include_once("views/include/logout.php");
     }
 
@@ -45,42 +37,30 @@ class View
         include_once("views/include/adminProductPage.php");
     }
 
-    public function viewAdminDeletePage($cards)
-    {
+    public function viewAdminDeletePage($cards) {
         include_once("views/include/admin/adminDeletePage.php");
     }
 
-    public function viewOrderConfirmPage()
-    {
+    public function viewOrderConfirmPage() {
         include_once("views/include/orderconfirm.php");
     }
 
-    public function viewCartPage()
-    {
+    public function viewCartPage() {
         include_once("views/include/shoppingcart.php");
-        if (isset($_SESSION['order'])) {
-            $this->viewAllOrdersInCart();
+    }
+
+    public function viewOrderPage($card) {
+        $this->viewOneCard($card);
+        $this->viewCardDetails($card);
+    } 
+
+    public function viewAllCards($cards) {
+        foreach ($cards as $card) {
+            $this->viewOneCard($card);
         }
     }
 
-    public function updatedTotalCardAmount($card)
-    {
-        $updatedAmount = $card['amount'];
-
-        if (isset($_SESSION['order'])) {
-            $amountOfOrders = count($_SESSION['order']);
-            for ($i = 0; $i < $amountOfOrders; $i++) {
-
-                if ($_SESSION['order'][$i]['id'] === $card['id']) {
-                    $updatedAmount = $card['amount'] -= $_SESSION['order'][$i]['amount'];
-                }
-            }
-        }
-        return $updatedAmount;
-    }
-
-    public function viewOneCard($card)
-    {
+    private function viewOneCard($card) {
         if (isset($_GET['page']) && $_GET['page'] === 'detailpage') {
             $bootstrap = "col-md-5 mx-auto";
         } else {
@@ -108,30 +88,7 @@ class View
         echo $html;
     }
 
-    
-    // one order admin
-    public function viewOneOrderToHandle($order, $row)
-    {
-        $html = <<<HTML
-            <tr>
-            <th scope="row">$row</th>
-            <td>$order[id]</td>
-            <td>$order[customerId]</td>
-            <td>$order[RegisterDate]</td>
-            <td><form action="#" method="post">
-                    <input type="hidden" name="orderId" value="$order[id]">
-                    <input type="submit" class="btn btn-primary" value="Send Order">
-                </form>
-            </td>
-            </tr>
-
-        HTML;
-
-        echo $html;
-    }
-
-    public function viewCardDetails($card)
-    {
+    private function viewCardDetails($card) {
         $amountLeft =  $this->updatedTotalCardAmount($card);
 
         $showbtn = 'enabled';
@@ -178,81 +135,51 @@ class View
         echo $html;
     }
 
+    private function updatedTotalCardAmount($card) {
+        $updatedAmount = $card['amount'];
+
+        if (isset($_SESSION['order'])) {
+            $amountOfOrders = count($_SESSION['order']);
+            for ($i = 0; $i < $amountOfOrders; $i++) {
+
+                if ($_SESSION['order'][$i]['id'] === $card['id']) {
+                    $updatedAmount = $card['amount'] -= $_SESSION['order'][$i]['amount'];
+                }
+            }
+        }
+        return $updatedAmount;
+    }
+
     // all admin orders
-    public function viewAllOrdersToHandle($ordersToHandle)
-    {
+    public function viewAllOrdersToHandle($ordersToHandle) {
         $row = 0;
         foreach ($ordersToHandle as $order) {
             $row += 1;
             $this->viewOneOrderToHandle($order, $row);
         }
     }
-
-    public function viewAllCards($cards)
-    {
-        foreach ($cards as $card) {
-            $this->viewOneCard($card);
-        }
-    }
-
-    public function viewOrderPage($card)
-    {
-        $this->viewOneCard($card);
-        $this->viewCardDetails($card);
-    }
-
-    private function viewAllOrdersInCart()
-    {
-
-        $row = 0;
-        $totalt = 0;
-
-        foreach ($_SESSION['order'] as $order) {
-            $row += 1;
-
-            $sum = $this->viewOneOrderInCart($order, $row);
-            $totalt += $sum;
-        }
-
-        if(isset($_SESSION['customer_id'])){
+    
+    private function viewOneOrderToHandle($order, $row) {
         $html = <<<HTML
-        <form class="m-5" method="post" action="?page=orderconfirm">
-                <input type="hidden" name="sendOrder" value=true>
-                <input type="submit" class="btn btn-lg btn-success m-5 p-2" style="position:absolute;bottom:0px;right:0px;margin:0;padding:6px;" value="Check Out">
-            </form>
-            
-
-        HTML;
-        
-        echo $html;
-        echo "<h6>Order totall: $totalt</h6>";
-        }
-    }
-
-    private function viewOneOrderInCart($order, $row)
-    {
-        $sum = $order['price'] * $order['amount'];
-
-        $html = <<<HTML
-        
-                <tr>
-                <th scope="row">$row</th>
-                <td>$order[title]</td>
-                <td>$order[price]</td>
-                <td>$order[amount]</td>
-                <td>$sum</td>
-                </tr>
+            <tr>
+            <th scope="row">$row</th>
+            <td>$order[id]</td>
+            <td>$order[customerId]</td>
+            <td>$order[RegisterDate]</td>
+            <td><form action="#" method="post">
+                    <input type="hidden" name="orderId" value="$order[id]">
+                    <input type="submit" class="btn btn-primary" value="Send Order">
+                </form>
+            </td>
+            </tr>
 
         HTML;
 
         echo $html;
-
-        return $sum;
-    }    
+    }   
 
     // MESSAGES-----------------
-    public function viewConfirmMessageSend($userInfo)
-    {
+    public function viewConfirmMessageSend($userInfo) {
         $this->printMessage(
             "<h4 class='text-center'>Thank you! $_SESSION[email]</h4>
             <h4 class='text-center'>Order confirmed!</h4>
@@ -262,8 +189,7 @@ class View
         );
     }
 
-    public function viewConfirmMessageSuccess($id, $type)
-    {
+    public function viewConfirmMessageSuccess($id, $type) {
         $this->printMessage(
             "<h4 class='text-center'>$id was successfully $type</h4>
             ",
@@ -272,8 +198,7 @@ class View
         );
     }
 
-    public function viewConfirmMessageRegister($userInfo)
-    {
+    public function viewConfirmMessageRegister($userInfo) {
         $this->printMessage(
             "<h4>User $userInfo Created, welcome! Please log in.</h4>
             ",
@@ -282,8 +207,7 @@ class View
         );
     }
 
-    public function viewConfirmMessageLogin($userInfo)
-    {
+    public function viewConfirmMessageLogin($userInfo) {
         $this->printMessage(
             "<h4>User $userInfo successfully logged in!</h4>
             ",
@@ -292,8 +216,7 @@ class View
         );
     }
 
-    public function viewErrorMessage()
-    {
+    public function viewErrorMessage() {
         $this->printMessage(
             "<h4>Something went wrong, please double check your email and password.</h4>
             <h4>Contact customer support if error still remains.</h4>
@@ -308,8 +231,7 @@ class View
      * $messageType enligt Bootstrap Alerts
      * https://getbootstrap.com/docs/5.0/components/alerts/
      */
-    public function printMessage($message, $messageType = "danger")
-    {
+    public function printMessage($message, $messageType = "danger") {
         $html = <<< HTML
             <div class="my-2 col-md-8 mx-auto alert alert-$messageType">
                 $message
