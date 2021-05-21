@@ -170,15 +170,19 @@ class Controller
     private function adminUpdatePage()
     {
         $this->getHeader("Admin Update page");
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cardId'])) {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cardId']) && !isset($_POST['category'])) {
             $cardId = $this->sanitize($_POST['cardId']);
             $card = $this->model->fetchCardById($cardId);
             $this->view->viewAdminUpdateDetailPage($card);
-        } else {
-            $cards = $this->model->fetchAllCards();
-            $this->view->viewAdminUpdatePage($cards);
-            $this->getFooter();
         }
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['category'])) {
+            $this->adminUpdateProduct();
+        }
+        // else {
+        $cards = $this->model->fetchAllCards();
+        $this->view->viewAdminUpdatePage($cards);
+        $this->getFooter();
+        // }
     }
     private function adminCreatePage()
     {
@@ -290,6 +294,28 @@ class Controller
             $this->view->viewErrorMessage();
         }
     }
+    private function adminUpdateProduct()
+    {
+        extract($_POST);
+        $id = $this->sanitize($id);
+        $name = $this->sanitize($name);
+        $amount = $this->sanitize($amount);
+        $description = $this->sanitize($description);
+        $price = $this->sanitize($price);
+        $image = $this->sanitize($image);
+        $category = $this->sanitize($category);
+        $rarity = $this->sanitize($rarity);
+
+        $confirmed = $this->model->updateProduct($id, $name,  $amount,  $description,  $price, $image, $category, $rarity);
+        if ($confirmed) {
+            $type = "updated";
+            $this->view->viewConfirmMessageSuccess($name, $type);
+            header('refresh:1; Location: ' . $_SERVER['HTTP_REFERER']);
+        } else {
+            $this->view->viewErrorMessage();
+        }
+    }
+
 
 
 

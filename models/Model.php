@@ -61,6 +61,34 @@ class Model
 
     return array('insertedNewProduct' => $insertedNewProduct) ?? false;
   }
+  public function updateProduct(
+    $id,
+    $name,
+    $amount,
+    $description,
+    $price,
+    $image,
+    $category,
+    $rarity
+  ) {
+    // "UPDATE contacts SET name= :name, tel= :tel WHERE id = :id");
+    $statement = "UPDATE products SET name=:name,amount=:amount,description=:description,price=:price, image=:image,category=:category,rarity=:rarity WHERE id=:id";
+
+    $parameters = array(
+      ':id' => $id,
+      ':name' => $name,
+      ':amount' => $amount,
+      ':description' => $description,
+      ':price' => $price,
+      ':image' => $image,
+      ':category' => $category,
+      ':rarity' => $rarity,
+    );
+
+    $updatedProduct = $this->db->update($statement, $parameters);
+
+    return array('updatedProduct' => $updatedProduct) ?? false;
+  }
 
   public function fetchCardById($id)
   {

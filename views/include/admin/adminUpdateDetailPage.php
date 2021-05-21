@@ -4,10 +4,11 @@ if (!isset($_SESSION['isAdmin'])) {
     die();
 }
 
-print_r($cards);
 $html = <<<HTML
 <div class="col-md-5 mx-auto">
     <form id="registerForm" action="#" method="POST">
+
+    <input name="id" type="hidden" value='$cards[id]'>
 
         <label for="cardName" class="visually-hidden"> Card Name</label>
         <input name="name" type="text" id="cardName" class="form-control" value='$cards[name]'>
@@ -41,7 +42,7 @@ $html = <<<HTML
         </select>
         <br>
         <br>
-        <button class="w-100 btn btn-lg btn-primary" type="submit">Create</button><br><br>
+        <button class="w-100 btn btn-lg btn-primary" type="submit">Update</button><br><br>
 
     </form>
 </div>
