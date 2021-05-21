@@ -55,6 +55,14 @@ class View
     {
         include_once("views/include/admin/adminCreatePage.php");
     }
+    public function viewAdminUpdatePage($cards)
+    {
+        include_once("views/include/admin/adminUpdatePage.php");
+    }
+    public function viewAdminUpdateDetailPage($cards)
+    {
+        include_once("views/include/admin/adminUpdateDetailPage.php");
+    }
 
     public function viewOrderConfirmPage()
     {

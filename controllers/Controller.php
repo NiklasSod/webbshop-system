@@ -57,6 +57,9 @@ class Controller
             case "create":
                 $this->adminCreatePage();
                 break;
+            case "update":
+                $this->adminUpdatePage();
+                break;
             default:
                 $this->getAllCards();
         }
@@ -163,6 +166,19 @@ class Controller
         $cards = $this->model->fetchAllCards();
         $this->view->viewAdminDeletePage($cards);
         $this->getFooter();
+    }
+    private function adminUpdatePage()
+    {
+        $this->getHeader("Admin Update page");
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cardId'])) {
+            $cardId = $this->sanitize($_POST['cardId']);
+            $card = $this->model->fetchCardById($cardId);
+            $this->view->viewAdminUpdateDetailPage($card);
+        } else {
+            $cards = $this->model->fetchAllCards();
+            $this->view->viewAdminUpdatePage($cards);
+            $this->getFooter();
+        }
     }
     private function adminCreatePage()
     {
