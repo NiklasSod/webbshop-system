@@ -5,7 +5,7 @@
         <input name="email" type="email" id="inputEmail" class="form-control" placeholder="Email address" value="" required>
         <br>
         <label for="inputPassword" class="visually-hidden">Password</label>
-        <input name="password" id="inputPassword" class="form-control mb-3" placeholder="Password" value="" required>
+        <input name="password" type="password" id="inputPassword" class="form-control mb-3" placeholder="Password" value="" required>
         <br>
         <button class="w-100 btn btn-lg btn-primary" type="submit">Login</button><br><br>
 
