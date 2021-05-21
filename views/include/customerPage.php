@@ -4,10 +4,15 @@ if (!isset($_SESSION['customer_id'])) {
     die();
 }
 ?>
+<pre class="border border-secondary p-4 text-muted rounded">
+<h6>Name: <?php echo ucfirst($_SESSION['customer_info'][0]['FirstName']) . " " . ucfirst($_SESSION['customer_info'][0]['LastName']) ?></h6>
+<h6>Email: <?php echo $_SESSION['email'] ?></h6>
+<h6>Register Date: <?php print_r($_SESSION['customer_info'][0]['RegisterDate']) ?></h6>
+</pre>
 
 
 <table class="table table-hover mt-3">
-<h6>Your Orders</h6>
+<h6 class="table mt-5">Your Orders</h6>
         <thead>
             <tr>
                 <th scope="col">#</th>

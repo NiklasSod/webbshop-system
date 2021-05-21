@@ -190,6 +190,7 @@ class Model
           $_SESSION['email'] = $email;
           $_SESSION['customer_id'] = $loggedInCustomer[0]['id'];
           $_SESSION['isAdmin'] = $loggedInCustomer[0]['isAdmin'];
+          $_SESSION['customer_info'] = $loggedInCustomer;
 
           return array('loggedInCustomer' => $loggedInCustomer) ?? false;
         }
