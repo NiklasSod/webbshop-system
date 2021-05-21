@@ -54,6 +54,9 @@ class Controller
             case "delete":
                 $this->adminDeletePage();
                 break;
+            case "create":
+                $this->adminCreatePage();
+                break;
             default:
                 $this->getAllCards();
         }
@@ -97,7 +100,7 @@ class Controller
     {
         $this->getHeader("Order Confirmed");
         $this->view->viewOrderConfirmPage();
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['sendOrder'])){
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['sendOrder'])) {
             $this->sendOrderToDb();
         }
         $this->getFooter();
@@ -133,9 +136,10 @@ class Controller
     }
 
     // ADMIN ---------------------------------------
-    private function adminOrderPage() {
+    private function adminOrderPage()
+    {
         $this->getHeader("Admin Order page");
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['orderId'])){
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['orderId'])) {
             $this->adminChangeOrderStatus();
         }
         $this->view->viewAdminOrderPage();
@@ -143,19 +147,30 @@ class Controller
         $this->getFooter();
     }
 
-    private function adminProductPage() {
+    private function adminProductPage()
+    {
         $this->getHeader("Admin Product page");
         $this->view->viewAdminProductPage();
         $this->getFooter();
     }
 
-    private function adminDeletePage() {
+    private function adminDeletePage()
+    {
         $this->getHeader("Admin Delete page");
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cardId'])){
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cardId'])) {
             $this->adminDeleteProduct();
         }
         $cards = $this->model->fetchAllCards();
         $this->view->viewAdminDeletePage($cards);
+        $this->getFooter();
+    }
+    private function adminCreatePage()
+    {
+        $this->getHeader("Admin Create page");
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['name'])) {
+            $this->adminCreateProduct();
+        }
+        $this->view->viewAdminCreatePage();
         $this->getFooter();
     }
 
@@ -179,7 +194,7 @@ class Controller
         $customerId = $this->sanitize($_SESSION['customer_id']);
         $confirmed2 = $this->model->sendOrderToDb($customerId);
 
-        if ($confirmed2){
+        if ($confirmed2) {
             foreach ($_SESSION['order'] as $order) {
 
                 $orderId = $this->sanitize($_SESSION['neworder']);
@@ -201,7 +216,8 @@ class Controller
         }
     }
 
-    private function adminOrderHandling() {
+    private function adminOrderHandling()
+    {
         $ordersToHandle = $this->model->fetchAllOrders();
         $this->view->viewAllOrdersToHandle($ordersToHandle);
 
@@ -210,7 +226,8 @@ class Controller
         }
     }
 
-    private function adminChangeOrderStatus() {
+    private function adminChangeOrderStatus()
+    {
         $orderId = $this->sanitize($_POST['orderId']);
         $confirmed = $this->model->changeOrderStatus($orderId);
 
@@ -222,9 +239,10 @@ class Controller
         }
     }
 
-    
 
-    private function adminDeleteProduct() {
+
+    private function adminDeleteProduct()
+    {
         $cardId = $this->sanitize($_POST['cardId']);
         $confirmed = $this->model->deleteProduct($cardId);
 
@@ -235,6 +253,28 @@ class Controller
             $this->view->viewConfirmMessageSuccess($cardId, $type);
         }
     }
+
+    private function adminCreateProduct()
+    {
+        extract($_POST);
+        $name = $this->sanitize($name);
+        $amount = $this->sanitize($amount);
+        $description = $this->sanitize($description);
+        $price = $this->sanitize($price);
+        $image = $this->sanitize($image);
+        $category = $this->sanitize($category);
+        $rarity = $this->sanitize($rarity);
+
+        $confirmed = $this->model->createProduct($name,  $amount,  $description,  $price, $image, $category, $rarity);
+        if ($confirmed) {
+            $type = "created";
+            $this->view->viewConfirmMessageSuccess($name, $type);
+            header("refresh:1; url=index.php");
+        } else {
+            $this->view->viewErrorMessage();
+        }
+    }
+
 
 
 
@@ -259,7 +299,7 @@ class Controller
         $CustomerPassword = $this->sanitize($_POST['password']);
 
         $confirmed = $this->model->modelLoginCustomer($CustomerEmail, $CustomerPassword);
-        
+
         if ($confirmed) {
             $this->view->viewConfirmMessageLogin($CustomerEmail . "... redirecting to homepage");
 

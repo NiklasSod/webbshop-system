@@ -34,6 +34,34 @@ class Model
     return $cardDelete;
   }
 
+  public function createProduct(
+    $name,
+    $amount,
+    $description,
+    $price,
+    $image,
+    $category,
+    $rarity
+  ) {
+
+    $statement = "INSERT INTO products (name, amount, description, price, image,  category, rarity) 
+                    VALUES (:name,:amount,:description,:price, :image,:category,:rarity)";
+    $parameters = array(
+      ':name' => $name,
+      ':amount' => $amount,
+      ':description' => $description,
+      ':price' => $price,
+      ':image' => $image,
+      ':category' => $category,
+      ':rarity' => $rarity,
+    );
+
+    // new customer
+    $insertedNewProduct = $this->db->insert($statement, $parameters);
+
+    return array('insertedNewProduct' => $insertedNewProduct) ?? false;
+  }
+
   public function fetchCardById($id)
   {
     $statement = "SELECT * FROM products WHERE id = :id";
@@ -42,7 +70,8 @@ class Model
     return $card[0] ?? false;
   }
 
-  public function findUserOrders() {
+  public function findUserOrders()
+  {
     $statement = "SELECT * FROM orders WHERE customerId = :customerId";
     $params = array(":customerId" => $_SESSION['customer_id']);
     $orders = $this->db->select($statement, $params);

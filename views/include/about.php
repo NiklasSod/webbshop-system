@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card  ">
     <div class="card-image card-1">
         <div class="content">
             <h2>01</h2>

@@ -5,7 +5,7 @@ require_once("models/Model.php");
 require_once("views/View.php");
 require_once("./controllers/Controller.php");
 
-$database = new Database("webshop2", "root", "root");
+$database = new Database("webshop2", "root", "abbe");
 $model = new Model($database);
 $view = new View();
 $controller = new Controller($model, $view);
