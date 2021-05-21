@@ -35,9 +35,11 @@ if (isset($_GET['page']) && $_GET['page'] === "about") {
         <li class="nav-item">
           <a class="nav-link" href="?page=about">About us</a>
         </li>
+        <?php if (isset($_SESSION['customer_id'])) { ?>
         <li class="nav-item">
           <a class="nav-link" href="?page=customerpage">Profile</a>
         </li>
+        <?php } ?>
         <li class="nav-item">
           <a class="nav-link" href="?page=shoppingcart">Shopping Cart</a>
         </li>
