@@ -18,7 +18,7 @@ class Model
 
   public function fetchAllOrders()
   {
-    $adminOrderHandling = $this->db->select("SELECT * FROM orders WHERE orderStatus IS null");
+    $adminOrderHandling = $this->db->select("SELECT * FROM orders");
     return $adminOrderHandling;
   }
 

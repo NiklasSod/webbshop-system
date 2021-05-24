@@ -183,8 +183,9 @@ class View
     // all admin orders
     public function viewAllOrdersToHandle($ordersToHandle)
     {
+        $reversed = array_reverse($ordersToHandle);
         $row = 0;
-        foreach ($ordersToHandle as $order) {
+        foreach ($reversed as $order) {
             $row += 1;
             $this->viewOneOrderToHandle($order, $row);
         }
@@ -192,13 +193,15 @@ class View
 
     private function viewOneOrderToHandle($order, $row)
     {
+
+        if (!$order['orderStatus'] == 1){
         $html = <<<HTML
             <tr>
             <th scope="row">$row</th>
             <td>$order[id]</td>
             <td>$order[customerId]</td>
             <td>$order[RegisterDate]</td>
-            <td><form action="#" method="post">
+                <td><form action="#" method="post">
                     <input type="hidden" name="orderId" value="$order[id]">
                     <input type="submit" class="btn btn-primary" value="Send Order">
                 </form>
@@ -207,6 +210,19 @@ class View
 
         HTML;
 
+        } else {
+            $html = <<<HTML
+            <tr>
+            <th scope="row">$row</th>
+            <td>$order[id]</td>
+            <td>$order[customerId]</td>
+            <td>$order[RegisterDate]</td>
+            <td>Order Sent</td>
+            </tr>
+
+        HTML;
+    
+        }
         echo $html;
     }
 
