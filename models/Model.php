@@ -83,9 +83,9 @@ class Model
   {
     // select correct order
     $order = $this->db->select(
-      "SELECT orders.id, orders.customerId, orderitems.orderId 
-      FROM orders 
-      INNER JOIN orderitems ON orderitems.orderId = orders.id
+      "SELECT orders.id, orders.customerId, orderId, productId, amount, price 
+      FROM orderitems
+      INNER JOIN orders ON orderitems.orderId = orders.id
       WHERE orders.customerId = $_SESSION[customer_id] AND orderitems.orderId = $id"
       );
 
