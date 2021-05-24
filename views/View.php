@@ -3,6 +3,9 @@
 class View
 {
 
+    /*********************
+     * Includes
+     */
     public function viewHeader($title)
     {
         include_once("views/include/header.php");
@@ -51,14 +54,17 @@ class View
     {
         include_once("views/include/admin/adminDeletePage.php");
     }
+
     public function viewAdminCreatePage()
     {
         include_once("views/include/admin/adminCreatePage.php");
     }
+
     public function viewAdminUpdatePage($cards)
     {
         include_once("views/include/admin/adminUpdatePage.php");
     }
+
     public function viewAdminUpdateDetailPage($cards)
     {
         include_once("views/include/admin/adminUpdateDetailPage.php");
@@ -74,7 +80,10 @@ class View
         include_once("views/include/shoppingcart.php");
     }
 
-    public function viewOrderPage($card)
+    /***********************
+     * Page Functions
+     */
+    public function viewCardDetailPage($card)
     {
         $this->viewOneCard($card);
         $this->viewCardDetails($card);
@@ -119,12 +128,10 @@ class View
     private function viewCardDetails($card)
     {
         $amountLeft =  $this->updatedTotalCardAmount($card);
-
         $showbtn = 'enabled';
         $btnText = 'Add card to shopping cart';
 
         if ($amountLeft == '0') {
-
             $showbtn = 'disabled';
             $btnText = 'This item is out of stock';
         }
@@ -143,9 +150,7 @@ class View
                     <input type="hidden" name="price" 
                             value="$card[price]">
                     <input type="number" value=1 min=1 max=$amountLeft name="amount" required 
-                            class="form-control form-control-lg my-2" 
-                            >
-                
+                            class="form-control form-control-lg my-2">
                     <input type="submit" class="form-control my-2 btn btn-lg btn-outline-success" 
                             value="$btnText" $showbtn>
                 </form>
@@ -158,12 +163,15 @@ class View
                         </div>
                     </div>
                 </div>
-            </div>  <!-- col -->
+            </div>
         HTML;
 
         echo $html;
     }
 
+    /*************
+     * Update card amount, locally with Session
+     */
     private function updatedTotalCardAmount($card)
     {
         $updatedAmount = $card['amount'];
@@ -180,7 +188,9 @@ class View
         return $updatedAmount;
     }
 
-    // all admin orders
+    /*****************************
+     * Order Handling Page ADMIN
+     */
     public function viewAllOrdersToHandle($ordersToHandle)
     {
         $reversed = array_reverse($ordersToHandle);
@@ -226,7 +236,9 @@ class View
         echo $html;
     }
 
-    // MESSAGES-----------------
+    /*****************************
+     * MESSAGES
+     */
     public function viewConfirmMessageSend($userInfo)
     {
         $this->printMessage(

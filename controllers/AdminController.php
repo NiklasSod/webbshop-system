@@ -22,6 +22,10 @@ class AdminController
         $this->view->viewFooter();
     }
 
+    /*****************
+     * PAGES
+     */
+
     public function adminOrderPage()
     {
         $this->getHeader("Admin Order page");
@@ -61,11 +65,9 @@ class AdminController
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['category'])) {
             $this->adminUpdateProduct();
         }
-        // else {
         $cards = $this->model->fetchAllCards();
         $this->view->viewAdminUpdatePage($cards);
         $this->getFooter();
-        // }
     }
     public function adminCreatePage()
     {
@@ -76,6 +78,10 @@ class AdminController
         $this->view->viewAdminCreatePage();
         $this->getFooter();
     }
+
+    /***************************
+     * DB Functions ADMIN
+     */
 
     public function adminOrderHandling()
     {

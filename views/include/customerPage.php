@@ -26,8 +26,8 @@ if (!isset($_SESSION['customer_id'])) {
 <?php
 
 $row = 0;
-
-foreach ($orders as $order) {
+$reversed = array_reverse($orders);
+foreach ($reversed as $order) {
     $row += 1;
     viewOneOrder($order, $row);
 }

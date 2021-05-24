@@ -14,6 +14,9 @@ class Controller
         $this->adminController = $adminController;
     }
 
+    /***************************
+     * Router
+     */
     public function main()
     {
         $this->router();
@@ -67,20 +70,65 @@ class Controller
         }
     }
 
+    
+    /***************************
+     * Header
+     */
     private function getHeader($title)
     {
         $this->view->viewHeader($title);
     }
 
+    
+    /***************************
+     * Footer
+     */
     private function getFooter()
     {
         $this->view->viewFooter();
     }
 
+    /**************************
+     * PAGES
+     */
     private function about()
     {
         $this->getHeader(null);
         $this->view->viewAboutPage();
+        $this->getFooter();
+    }
+
+    private function detailPage()
+    {
+        $this->getHeader("Card detail page");
+
+        $id = $this->sanitize($_GET['id']);
+        $card = $this->model->fetchCardById($id);
+
+        if ($card)
+            $this->view->viewCardDetailPage($card);
+
+        $this->getFooter();
+    }
+
+    private function register()
+    {
+        $this->getHeader("Register here");
+        $this->view->registerPage();
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST')
+            $this->registerUserToDb();
+        $this->getFooter();
+    }
+
+    private function login()
+    {
+        $this->getHeader("Please login");
+        $this->view->loginPage();
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST')
+            $this->validateUserLogin();
+
         $this->getFooter();
     }
 
@@ -111,27 +159,9 @@ class Controller
         $this->getFooter();
     }
 
-    private function register()
-    {
-        $this->getHeader("Register here");
-        $this->view->registerPage();
-
-        if ($_SERVER['REQUEST_METHOD'] === 'POST')
-            $this->registerUserToDb();
-        $this->getFooter();
-    }
-
-    private function login()
-    {
-        $this->getHeader("Please login");
-        $this->view->loginPage();
-
-        if ($_SERVER['REQUEST_METHOD'] === 'POST')
-            $this->validateUserLogin();
-
-        $this->getFooter();
-    }
-
+    /***************************
+     * Case: Default
+     */
     private function getAllCards()
     {
         $this->getHeader("Welcome");
@@ -140,22 +170,11 @@ class Controller
         $this->getFooter();
     }
 
-    private function detailPage()
-    {
-        $this->getHeader("Card detail page");
-
-        $id = $this->sanitize($_GET['id']);
-        $card = $this->model->fetchCardById($id);
-
-        if ($card)
-            $this->view->viewOrderPage($card);
-
-        $this->getFooter();
-    }
-
+    /***************************
+     * DB Functions Customer
+     */
     private function sendOrderToDb()
     {
-
         $customerId = $this->sanitize($_SESSION['customer_id']);
         $confirmed2 = $this->model->sendOrderToDb($customerId);
 
