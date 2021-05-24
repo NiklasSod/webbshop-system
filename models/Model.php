@@ -83,14 +83,11 @@ class Model
   {
     // select correct order
     $order = $this->db->select(
-      "SELECT * 
-      FROM orderitems 
-      INNER JOIN orders 
-      ON orders.customerId = $_SESSION[customer_id]
-      WHERE orderId = $id"
+      "SELECT orders.id, orders.customerId, orderitems.orderId 
+      FROM orders 
+      INNER JOIN orderitems ON orderitems.orderId = orders.id
+      WHERE orders.customerId = $_SESSION[customer_id] AND orderitems.orderId = $id"
       );
-    
-    // added info to make URL safe so a user cant see other users orders
 
     return $order;
   }
