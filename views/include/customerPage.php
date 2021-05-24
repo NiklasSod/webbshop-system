@@ -42,7 +42,7 @@ function viewOneOrder($order, $row){
     <tr>
         <td>$row</td>
         <td>$order[RegisterDate]</td>
-        <td>$output</td>
+        <td><a href="?page=orderdetailpage&id=$order[id]">$output</a></td>
     </tr>
 HTML;
 

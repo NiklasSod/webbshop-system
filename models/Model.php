@@ -79,6 +79,21 @@ class Model
     return $adminOrderHandling;
   }
 
+  public function fetchOneOrder($id)
+  {
+    // select correct order
+    $order = $this->db->select(
+      "SELECT * 
+      FROM orderitems 
+      INNER JOIN orders 
+      ON orders.customerId = $_SESSION[customer_id]
+      WHERE orderId = $id"
+      );
+    
+    // added info to make URL safe so a user cant see other users orders
+
+    return $order;
+  }
 
   public function changeOrderAmount($cardId, $amount)
   {

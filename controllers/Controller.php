@@ -50,6 +50,10 @@ class Controller
             case "orderconfirm":
                 $this->orderconfirmPage();
                 break;
+            case "orderdetailpage":
+                $this->orderDetailPage();
+                break;
+                
             case "adminorderpage":
                 $this->adminController->adminOrderPage();
                 break;
@@ -105,9 +109,25 @@ class Controller
         $id = $this->sanitize($_GET['id']);
         $card = $this->model->fetchCardById($id);
 
-        if ($card)
+        if ($card) {
             $this->view->viewCardDetailPage($card);
+        }
+            
+        $this->getFooter();
+    }
 
+    private function orderDetailPage()
+    {
+        $this->getHeader("Order detail page");
+        if (isset($_GET['id'])) {
+            $id = $this->sanitize($_GET['id']);
+            $orders = $this->model->fetchOneOrder($id);
+
+            if ($orders) {
+                $this->view->viewOrderDetailPage($orders);
+            }
+        }
+        
         $this->getFooter();
     }
 

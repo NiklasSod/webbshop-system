@@ -80,6 +80,11 @@ class View
         include_once("views/include/shoppingcart.php");
     }
 
+    public function viewOrderDetailPage($orders)
+    {
+        include_once("views/include/orderdetailpage.php");
+    }
+
     /***********************
      * Page Functions
      */
