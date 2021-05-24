@@ -39,12 +39,12 @@ class View
 
     public function viewAdminOrderPage()
     {
-        include_once("views/include/adminOrderPage.php");
+        include_once("views/include/admin/adminOrderPage.php");
     }
 
     public function viewAdminProductPage()
     {
-        include_once("views/include/adminProductPage.php");
+        include_once("views/include/admin/adminProductPage.php");
     }
 
     public function viewAdminDeletePage($cards)
