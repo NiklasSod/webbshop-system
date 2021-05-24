@@ -242,7 +242,7 @@ class Controller
         $ordersToHandle = $this->model->fetchAllOrders();
         $this->view->viewAllOrdersToHandle($ordersToHandle);
 
-        if (!$ordersToHandle) {
+        if (!isset($ordersToHandle)) {
             $this->view->viewErrorMessage();
         }
     }
