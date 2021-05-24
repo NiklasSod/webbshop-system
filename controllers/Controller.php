@@ -222,6 +222,7 @@ class Controller
                 $amount = $this->sanitize($order['amount']);
                 $price = $this->sanitize($order['price']);
                 $confirmed = $this->model->sendOrderItemToDb($orderId, $amount, $price, $cardId);
+                $this->model->changeOrderAmount($cardId, $amount);
             }
         } else {
             $this->view->viewErrorMessage();

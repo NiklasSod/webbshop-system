@@ -22,17 +22,21 @@ class Model
     return $adminOrderHandling;
   }
 
+
+  public function changeOrderAmount($cardId, $amount)
+  {
+    $amountChange = $this->db->update(
+      "UPDATE products p 
+      SET p.amount = (p.amount - $amount) 
+      WHERE p.id = $cardId
+      "
+    );
+    return $amountChange;
+  }
+
   public function changeOrderStatus($orderId)
   {
     $orderSent = $this->db->update("UPDATE orders SET orderStatus = 1 WHERE id = $orderId");
-    $this->db->update(
-      "UPDATE products p 
-      JOIN orderitems oi ON p.id = oi.productId 
-      JOIN orders o ON oi.orderId = o.id 
-      SET p.amount = (p.amount - oi.amount) 
-      WHERE o.id = $orderId
-    "
-    );
     return $orderSent;
   }
 
