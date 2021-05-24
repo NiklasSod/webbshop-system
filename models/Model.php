@@ -22,8 +22,13 @@ class Model
 
   public function fetchCardsByRarity($rarity)
   {
-    $cards = $this->db->select("SELECT * FROM products WHERE rarity = '$rarity'");
-    return $cards;
+    if ($rarity === "All") {
+      $cards = $this->fetchAllCards();
+      return $cards;
+    } else {
+      $cards = $this->db->select("SELECT * FROM products WHERE rarity = '$rarity'");
+      return $cards;
+    }
   }
 
   public function fetchCardById($id)

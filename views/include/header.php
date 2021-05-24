@@ -7,6 +7,13 @@ if (isset($_GET['page']) && $_GET['page'] === "about") {
   $bootstrap = "text-center m-5 p-3";
   $css = "./styles/styles.css";
   $divRow = "<div class='row'>";
+} 
+
+// function to stay on latest search by rarity choice
+function getRarity($value) {
+  if (isset($_GET['rarity']) && $_GET['rarity'] === $value) {
+    return true;
+  }
 } ?>
 
 <!DOCTYPE html>
@@ -52,15 +59,16 @@ if (isset($_GET['page']) && $_GET['page'] === "about") {
           </li>
         <?php } ?>
         <li class="nav-item">
-          <form action="?page=default" method="GET">
-            <label for="rarity">Search by rarity:</label>
-            <select name="rarity" id="rarity">
-              <option value="Common">Common</option>
-              <option value="Uncommon">Uncommon</option>
-              <option value="Rare">Rare</option>
-              <option value="Mythic Rare">Mythic Rare</option>
+          <form action="?page=default" method="GET" class="registerForm ml-5 mt-1">
+            <label for="rarity" class="text-light">Search by rarity:</label>
+            <select name="rarity" id="rarity" class="form-select">
+              <option value="All" <?php if (getRarity("All") === true){ ?> selected <?php }; ?> >All</option>
+              <option value="Common" <?php if (getRarity("Common") === true){ ?> selected <?php }; ?> >Common</option>
+              <option value="Uncommon" <?php if (getRarity("Uncommon") === true){ ?> selected <?php }; ?> >Uncommon</option>
+              <option value="Rare" <?php if (getRarity("Rare") === true){ ?> selected <?php }; ?> >Rare</option>
+              <option value="Mythic Rare" <?php if (getRarity("Mythic Rare") === true){ ?> selected <?php }; ?> >Mythic Rare</option>
             </select>
-            <input type="submit" value="Filter">
+            <input type="submit" value="Ok" class="btn-light btn">
           </form>
         </li>
       </ul>
