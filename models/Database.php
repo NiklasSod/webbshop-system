@@ -12,7 +12,7 @@ class Database
   private $conn = null;
 
   // $servername = "localhost:3307" ta bort :3307 från localhost om den finns
-  public function __construct($database, $username = "root", $password = "root", $servername = "localhost")
+  public function __construct($database, $username = "root", $password = "root", $servername = "localhost:3307")
   {
     // Data Source Name
     $dsn = "mysql:host=$servername;dbname=$database;charset=UTF8";
@@ -37,6 +37,9 @@ class Database
     } catch (PDOException $e) {
       if ($stmt->errorInfo()[1] == 1062) {
         $this->printMessage("Email finns redan i databasen!");
+        die();
+      } else if ($stmt->errorInfo()[1] == 1690) {
+        $this->printMessage("För få kort i lager. Updatera antal kort.");
         die();
       } else {
         throw new Exception($e->getMessage());

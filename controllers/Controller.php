@@ -2,14 +2,15 @@
 
 class Controller
 {
-
     private $model;
     private $view;
+    private $admin;
 
-    public function __construct($model, $view)
+    public function __construct($model, $view, $admin)
     {
         $this->model = $model;
         $this->view = $view;
+        $this->admin = $admin;
     }
 
     public function main()
@@ -46,19 +47,19 @@ class Controller
                 $this->orderconfirmPage();
                 break;
             case "adminorderpage":
-                $this->adminOrderPage();
+                $this->admin->adminOrderPage();
                 break;
             case "adminproductpage":
-                $this->adminProductPage();
+                $this->admin->adminProductPage();
                 break;
             case "delete":
-                $this->adminDeletePage();
+                $this->admin->adminDeletePage();
                 break;
             case "create":
-                $this->adminCreatePage();
+                $this->admin->adminCreatePage();
                 break;
             case "update":
-                $this->adminUpdatePage();
+                $this->admin->adminUpdatePage();
                 break;
             default:
                 $this->getAllCards();
@@ -139,60 +140,60 @@ class Controller
     }
 
     // ADMIN ---------------------------------------
-    private function adminOrderPage()
-    {
-        $this->getHeader("Admin Order page");
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['orderId'])) {
-            $this->adminChangeOrderStatus();
-        }
-        $this->view->viewAdminOrderPage();
-        $this->adminOrderHandling();
-        $this->getFooter();
-    }
+    // private function adminOrderPage()
+    // {
+    //     $this->getHeader("Admin Order page");
+    //     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['orderId'])) {
+    //         $this->adminChangeOrderStatus();
+    //     }
+    //     $this->view->viewAdminOrderPage();
+    //     $this->adminOrderHandling();
+    //     $this->getFooter();
+    // }
 
-    private function adminProductPage()
-    {
-        $this->getHeader("Admin Product page");
-        $this->view->viewAdminProductPage();
-        $this->getFooter();
-    }
+    // private function adminProductPage()
+    // {
+    //     $this->getHeader("Admin Product page");
+    //     $this->view->viewAdminProductPage();
+    //     $this->getFooter();
+    // }
 
-    private function adminDeletePage()
-    {
-        $this->getHeader("Admin Delete page");
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cardId'])) {
-            $this->adminDeleteProduct();
-        }
-        $cards = $this->model->fetchAllCards();
-        $this->view->viewAdminDeletePage($cards);
-        $this->getFooter();
-    }
-    private function adminUpdatePage()
-    {
-        $this->getHeader("Admin Update page");
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cardId']) && !isset($_POST['category'])) {
-            $cardId = $this->sanitize($_POST['cardId']);
-            $card = $this->model->fetchCardById($cardId);
-            $this->view->viewAdminUpdateDetailPage($card);
-        }
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['category'])) {
-            $this->adminUpdateProduct();
-        }
-        // else {
-        $cards = $this->model->fetchAllCards();
-        $this->view->viewAdminUpdatePage($cards);
-        $this->getFooter();
-        // }
-    }
-    private function adminCreatePage()
-    {
-        $this->getHeader("Admin Create page");
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['name'])) {
-            $this->adminCreateProduct();
-        }
-        $this->view->viewAdminCreatePage();
-        $this->getFooter();
-    }
+    // private function adminDeletePage()
+    // {
+    //     $this->getHeader("Admin Delete page");
+    //     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cardId'])) {
+    //         $this->adminDeleteProduct();
+    //     }
+    //     $cards = $this->model->fetchAllCards();
+    //     $this->view->viewAdminDeletePage($cards);
+    //     $this->getFooter();
+    // }
+    // private function adminUpdatePage()
+    // {
+    //     $this->getHeader("Admin Update page");
+    //     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cardId']) && !isset($_POST['category'])) {
+    //         $cardId = $this->sanitize($_POST['cardId']);
+    //         $card = $this->model->fetchCardById($cardId);
+    //         $this->view->viewAdminUpdateDetailPage($card);
+    //     }
+    //     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['category'])) {
+    //         $this->adminUpdateProduct();
+    //     }
+    //     // else {
+    //     $cards = $this->model->fetchAllCards();
+    //     $this->view->viewAdminUpdatePage($cards);
+    //     $this->getFooter();
+    //     // }
+    // }
+    // private function adminCreatePage()
+    // {
+    //     $this->getHeader("Admin Create page");
+    //     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['name'])) {
+    //         $this->adminCreateProduct();
+    //     }
+    //     $this->view->viewAdminCreatePage();
+    //     $this->getFooter();
+    // }
 
     private function detailPage()
     {
@@ -237,85 +238,85 @@ class Controller
         }
     }
 
-    private function adminOrderHandling()
-    {
-        $ordersToHandle = $this->model->fetchAllOrders();
-        $this->view->viewAllOrdersToHandle($ordersToHandle);
+    // private function adminOrderHandling()
+    // {
+    //     $ordersToHandle = $this->model->fetchAllOrders();
+    //     $this->view->viewAllOrdersToHandle($ordersToHandle);
 
-        if (!isset($ordersToHandle)) {
-            $this->view->viewErrorMessage();
-        }
-    }
+    //     if (!isset($ordersToHandle)) {
+    //         $this->view->viewErrorMessage();
+    //     }
+    // }
 
-    private function adminChangeOrderStatus()
-    {
-        $orderId = $this->sanitize($_POST['orderId']);
-        $confirmed = $this->model->changeOrderStatus($orderId);
+    // private function adminChangeOrderStatus()
+    // {
+    //     $orderId = $this->sanitize($_POST['orderId']);
+    //     $confirmed = $this->model->changeOrderStatus($orderId);
 
-        if ($confirmed) {
-            $this->view->viewErrorMessage();
-        } else {
-            $type = "sent";
-            $this->view->viewConfirmMessageSuccess($orderId, $type);
-        }
-    }
+    //     if ($confirmed) {
+    //         $this->view->viewErrorMessage();
+    //     } else {
+    //         $type = "sent";
+    //         $this->view->viewConfirmMessageSuccess($orderId, $type);
+    //     }
+    // }
 
 
 
-    private function adminDeleteProduct()
-    {
-        $cardId = $this->sanitize($_POST['cardId']);
-        $confirmed = $this->model->deleteProduct($cardId);
+    // private function adminDeleteProduct()
+    // {
+    //     $cardId = $this->sanitize($_POST['cardId']);
+    //     $confirmed = $this->model->deleteProduct($cardId);
 
-        if ($confirmed) {
-            $this->view->viewErrorMessage();
-        } else {
-            $type = "deleted";
-            $this->view->viewConfirmMessageSuccess($cardId, $type);
-        }
-    }
+    //     if ($confirmed) {
+    //         $this->view->viewErrorMessage();
+    //     } else {
+    //         $type = "deleted";
+    //         $this->view->viewConfirmMessageSuccess($cardId, $type);
+    //     }
+    // }
 
-    private function adminCreateProduct()
-    {
-        extract($_POST);
-        $name = $this->sanitize($name);
-        $amount = $this->sanitize($amount);
-        $description = $this->sanitize($description);
-        $price = $this->sanitize($price);
-        $image = $this->sanitize($image);
-        $category = $this->sanitize($category);
-        $rarity = $this->sanitize($rarity);
+    // private function adminCreateProduct()
+    // {
+    //     extract($_POST);
+    //     $name = $this->sanitize($name);
+    //     $amount = $this->sanitize($amount);
+    //     $description = $this->sanitize($description);
+    //     $price = $this->sanitize($price);
+    //     $image = $this->sanitize($image);
+    //     $category = $this->sanitize($category);
+    //     $rarity = $this->sanitize($rarity);
 
-        $confirmed = $this->model->createProduct($name,  $amount,  $description,  $price, $image, $category, $rarity);
-        if ($confirmed) {
-            $type = "created";
-            $this->view->viewConfirmMessageSuccess($name, $type);
-            header("refresh:1; url=index.php");
-        } else {
-            $this->view->viewErrorMessage();
-        }
-    }
-    private function adminUpdateProduct()
-    {
-        extract($_POST);
-        $id = $this->sanitize($id);
-        $name = $this->sanitize($name);
-        $amount = $this->sanitize($amount);
-        $description = $this->sanitize($description);
-        $price = $this->sanitize($price);
-        $image = $this->sanitize($image);
-        $category = $this->sanitize($category);
-        $rarity = $this->sanitize($rarity);
+    //     $confirmed = $this->model->createProduct($name,  $amount,  $description,  $price, $image, $category, $rarity);
+    //     if ($confirmed) {
+    //         $type = "created";
+    //         $this->view->viewConfirmMessageSuccess($name, $type);
+    //         header("refresh:1; url=index.php");
+    //     } else {
+    //         $this->view->viewErrorMessage();
+    //     }
+    // }
+    // private function adminUpdateProduct()
+    // {
+    //     extract($_POST);
+    //     $id = $this->sanitize($id);
+    //     $name = $this->sanitize($name);
+    //     $amount = $this->sanitize($amount);
+    //     $description = $this->sanitize($description);
+    //     $price = $this->sanitize($price);
+    //     $image = $this->sanitize($image);
+    //     $category = $this->sanitize($category);
+    //     $rarity = $this->sanitize($rarity);
 
-        $confirmed = $this->model->updateProduct($id, $name,  $amount,  $description,  $price, $image, $category, $rarity);
-        if ($confirmed) {
-            $type = "updated";
-            $this->view->viewConfirmMessageSuccess($name, $type);
-            header('refresh:1; Location: ' . $_SERVER['HTTP_REFERER']);
-        } else {
-            $this->view->viewErrorMessage();
-        }
-    }
+    //     $confirmed = $this->model->updateProduct($id, $name,  $amount,  $description,  $price, $image, $category, $rarity);
+    //     if ($confirmed) {
+    //         $type = "updated";
+    //         $this->view->viewConfirmMessageSuccess($name, $type);
+    //         header('refresh:1; Location: ' . $_SERVER['HTTP_REFERER']);
+    //     } else {
+    //         $this->view->viewErrorMessage();
+    //     }
+    // }
 
 
 
