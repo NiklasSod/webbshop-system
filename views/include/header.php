@@ -51,8 +51,18 @@ if (isset($_GET['page']) && $_GET['page'] === "about") {
             <a class="nav-link" href="?page=adminproductpage">Products</a>
           </li>
         <?php } ?>
-        
-
+        <li class="nav-item">
+          <form action="?page=default" method="GET">
+            <label for="rarity">Search by rarity:</label>
+            <select name="rarity" id="rarity">
+              <option value="Common">Common</option>
+              <option value="Uncommon">Uncommon</option>
+              <option value="Rare">Rare</option>
+              <option value="Mythic Rare">Mythic Rare</option>
+            </select>
+            <input type="submit" value="Filter">
+          </form>
+        </li>
       </ul>
       <span class="navbar-text">
         <?php

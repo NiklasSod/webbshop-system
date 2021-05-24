@@ -20,6 +20,12 @@ class Model
     return $cards;
   }
 
+  public function fetchCardsByRarity($rarity)
+  {
+    $cards = $this->db->select("SELECT * FROM products WHERE rarity = '$rarity'");
+    return $cards;
+  }
+
   public function fetchCardById($id)
   {
     $statement = "SELECT * FROM products WHERE id = :id";

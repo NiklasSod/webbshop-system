@@ -185,7 +185,12 @@ class Controller
     private function getAllCards()
     {
         $this->getHeader("Welcome");
-        $cards = $this->model->fetchAllCards();
+        if (isset($_GET['rarity'])) {
+            $rarity = $_GET['rarity'];
+            $cards = $this->model->fetchCardsByRarity($rarity);
+        } else {
+            $cards = $this->model->fetchAllCards();
+        }
         $this->view->viewAllCards($cards);
         $this->getFooter();
     }
