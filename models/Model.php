@@ -20,6 +20,17 @@ class Model
     return $cards;
   }
 
+  public function fetchCardsByRarity($rarity)
+  {
+    if ($rarity === "All") {
+      $cards = $this->fetchAllCards();
+      return $cards;
+    } else {
+      $cards = $this->db->select("SELECT * FROM products WHERE rarity = '$rarity'");
+      return $cards;
+    }
+  }
+
   public function fetchCardById($id)
   {
     $statement = "SELECT * FROM products WHERE id = :id";
@@ -79,6 +90,19 @@ class Model
     return $adminOrderHandling;
   }
 
+  public function fetchOneOrder($id)
+  {
+    // select correct order
+    $order = $this->db->select(
+      "SELECT o.id, oi.amount, p.price, p.name, p.image 
+      FROM orderitems AS oi
+      INNER JOIN orders AS o ON oi.orderId = o.id
+      INNER JOIN products AS p ON oi.productId = p.id
+      WHERE o.customerId = $_SESSION[customer_id] AND oi.orderId = $id"
+      );
+
+    return $order;
+  }
 
   public function changeOrderAmount($cardId, $amount)
   {
