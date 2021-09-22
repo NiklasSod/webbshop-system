@@ -177,7 +177,7 @@ class View
 
     private function goBackOrForward() {
         $html = <<<HTML
-        <div class="d-flex justify-content-around col-md-12">
+        <div class="d-flex justify-content-around col-md-12 mb-3 mt-3">
             <a href="index.php?page=detailpage&id=$_GET[id]">
                 <button onclick="thePreviousCard()" type="button" class="btn btn-info btn-lg">Previous Card</button>
             </a><a href="index.php?page=detailpage&id=$_GET[id]">
