@@ -1,12 +1,15 @@
 <?php
 
-require_once("models/Database.php");
+// require_once("models/Database.php");
+require_once("models/CleardbDatabase.php");
 require_once("models/Model.php");
 require_once("views/View.php");
 require_once("./controllers/Controller.php");
 require_once("./controllers/AdminController.php");
 
-$database = new Database("webshop2", "root", "root");
+// $database = new Database("webshop2", "root", "root");
+$database = new Database();
+
 $model = new Model($database);
 $view = new View();
 $adminController = new AdminController($model, $view);
